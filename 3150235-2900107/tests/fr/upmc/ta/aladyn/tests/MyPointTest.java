@@ -51,7 +51,6 @@ public class MyPointTest {
 			
 			assertTrue(point.getX() == 10);
 			assertTrue(point.getY() == 5);
-			System.out.println(point.getTab0());
 			assertTrue(point.getTab0() == 3);
 			assertTrue(point.getTab1() == 4);
 	}

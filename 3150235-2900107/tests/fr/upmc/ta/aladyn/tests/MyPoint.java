@@ -5,7 +5,7 @@ import fr.upmc.ta.aladyn.MethodException;
 
 public class MyPoint {
 
-	private double x, y;
+	private Double x, y;
 	private int[] tab;
 
 	public MyPoint(double x_value, double y_value, int tab0, int tab1) {
