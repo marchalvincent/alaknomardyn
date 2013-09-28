@@ -2,7 +2,6 @@ package fr.upmc.ta.aladyn.tests;
 
 import fr.upmc.ta.aladyn.MethodException;
 
-
 public class MyPoint {
 
 	private Double x, y;
@@ -28,18 +27,18 @@ public class MyPoint {
 	public double getY() {
 		return y;
 	}
-	
+
 	public int getTab0() {
 		return tab[0];
 	}
-	
+
 	public int getTab1() {
 		return tab[1];
 	}
 
 	public void failMethod() throws MethodException {
-		this.x ++;
-		this.y --;
+		this.x++;
+		this.y--;
 		this.tab[0] += 5;
 		this.tab[1] -= 5;
 		throw new MethodException("Method fail.");

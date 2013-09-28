@@ -16,18 +16,18 @@ public class MainTest {
 			System.out.println("Réalisation du backup");
 			BackupManager<Point> backUp = new BackupManager<>();
 			backUp.save(point);
-//			Point back = (Point) backUp.getBackup();
-//			System.out.println("Backup : X " + back.getX() + " Y "
-//					+ back.getY());
-//
-//			point.setLocation(3, 4);
-//			point.setY(4);
-//			System.out.println("point apres modification : X " + point.getX()
-//					+ " Y " + point.getY());
-//
-//			backUp.restore(point);
-//			System.out.println("point apres le restore : X " + point.getX()
-//					+ " Y " + point.getY());
+			// Point back = (Point) backUp.getBackup();
+			// System.out.println("Backup : X " + back.getX() + " Y "
+			// + back.getY());
+			//
+			// point.setLocation(3, 4);
+			// point.setY(4);
+			// System.out.println("point apres modification : X " + point.getX()
+			// + " Y " + point.getY());
+			//
+			// backUp.restore(point);
+			// System.out.println("point apres le restore : X " + point.getX()
+			// + " Y " + point.getY());
 
 		} catch (Exception e) {
 			e.printStackTrace();
