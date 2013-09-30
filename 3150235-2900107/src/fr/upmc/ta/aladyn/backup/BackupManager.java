@@ -1,13 +1,10 @@
 package fr.upmc.ta.aladyn.backup;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import fr.upmc.ta.aladyn.Transactionnable;
 
 /**
@@ -24,6 +21,7 @@ public class BackupManager<T> {
 	private Map<Field, Object> references;
 
 	public BackupManager() {
+
 		super();
 		copies = new HashMap<>();
 		references = new HashMap<>();
@@ -42,106 +40,89 @@ public class BackupManager<T> {
 
 		// on récupère les Field de l'objet
 		Field[] fields = objectToSave.getClass().getDeclaredFields();
-
-		// parcours de tous les attributs de l'objet afin de récupérer les
-		// valeurs des attributs et les sauvegarder
+		// parcours de tous les attributs de l'objet afin de récupérer les valeurs des attributs et les sauvegarder
+		
 		for (Field field : fields) {
 			field.setAccessible(true);
-
-			// on ne peut pas "set" une variable final, il ne sert a rien de
-			// l'avoir en mémoire
+			
+			// on ne peut pas "set" une variable final, il ne sert a rien de l'avoir en mémoire
 			if (!Modifier.isFinal(field.getModifiers())) {
-
+				
 				// dans le cas où on a un tableau, il faut faire la copie
 				if (field.getType().isArray()) {
-
 					// TODO tableau
-					// Class<?> componentType =
-					// field.get(objectToSave).getClass().getComponentType();
-					// int[] array = (int[]) Array.newInstance(componentType,
-					// 2);
-					//
-					// Array.set(array, 0, Array.get(field.get(objectToSave),
-					// 0));
-					// Array.set(array, 1, Array.get(field.get(objectToSave),
-					// 1));
-					//
-					// values.put(field, array);
-					//
-					// System.out.println("0. " +
-					// Array.get(field.get(objectToSave), 0));
-					// System.out.println("1. " +
-					// Array.get(field.get(objectToSave), 1));
-					//
-				} else {
+//					 Class<?> componentType = field.getType().getComponentType();
+//					 int[] array = (int[]) Array.newInstance(componentType, 2);
+//					
+//					 Array.set(array, 0, Array.get(field.get(objectToSave), 0));
+//					 Array.set(array, 1, Array.get(field.get(objectToSave), 1));
+//					
+//					 values.put(field, array);
+//					
+//					 System.out.println("0. " + Array.get(field.get(objectToSave), 0));
+//					 System.out.println("1. " + Array.get(field.get(objectToSave), 1));
 					
-					if (this.isCopy(field, objectToSave)) {
-						copies.put(field, field.get(objectToSave));
-					} else {
-						// TODO
-					}
-					 
+				} else {
+					this.saveField(field, objectToSave);
 				}
 			}
 		}
-	}
-	
-	private boolean isCopy(Field field, Object objectToSave) {
-		
-		return false;
 	}
 
 	/**
 	 * Cette méthode regarde le type du champ à sauvegarder.
 	 * <ul>
-	 * <li>Soit le type est primitif, alors la méthode renvoie une copie de
-	 * l'objet ;</li>
-	 * <li>Soit le type est un objet transactionnable, alors la méthode
-	 * enregistre par copie l'objet ;</li>
-	 * <li>Soit le type est un objet <b>non</b> transactionnable, alors on ne
-	 * sauvegarde que la référence.</li>
+	 * <li>Soit le type est primitif, alors la méthode renvoie une copie de l'objet ;</li>
+	 * <li>Soit le type est un objet transactionnable, alors la méthode enregistre par copie l'objet ;</li>
+	 * <li>Soit le type est un objet <b>non</b> transactionnable, alors on ne sauvegarde que la référence.</li>
 	 * </ul>
 	 * 
 	 * @param field
 	 * @param objectToSave
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	private Object saveObject(Field field, Object objectToSave) throws Exception {
+	private void saveField(Field field, Object objectToSave) throws Exception {
 
 		if (field.getType().isPrimitive()) {
 			// on fait une copie du type primitif, le get le fait automatiquement
-			return field.get(objectToSave);
-
+			copies.put(field, field.get(objectToSave));
 		} else {
 			// ici, on a un objet. Il faut savoir s'il est annoté transactionnable
-			Annotation[] annotations = field.getAnnotations();
-			boolean isTransac = false;
-			for (Annotation annotation : annotations) {
-				if (annotation instanceof Transactionnable) {
-					isTransac = true;
-					break;
-				}
-			}
-
-			if (isTransac) {
+			if (this.isTransactionnable(field, objectToSave)) {
+				
 				// on fait la sauvegarde par copie de l'objet
-				// TODO
-				Class<?> type = field.get(objectToSave).getClass();
+				// TODO faire la sauvegarde par copie
+//				Class<?> type = field.getType();
+//				BackupManager<Object> bm = new BackupManager<>();
+//				bm.save(field.get(objectToSave));
+//				
+//				copies.put(field, null);
+				references.put(field, field.get(objectToSave));
 				
-				// TODO michel putain c'est la merde !
-				//TODO vincent
-				BackupManager<Object> bm = new BackupManager<>();
-				bm.save(field.get(objectToSave));
-				
-				
-
 			} else {
-				// on fait la sauvegarde par référence, le get le fait automatiquement
-				return field.get(objectToSave);
+				// on fait la sauvegarde par référence de l'objet, le get le fait automatiquement
+				references.put(field, field.get(objectToSave));
 			}
 		}
-		return null;
+	}
+	
+	/**
+	 * Parcours les annotations de la classe du champ passé en paramètre.
+	 * @param field
+	 * @return true si le champ est un objet transactionnable, false sinon.
+	 * @throws Exception si une erreur survient. Typiquement, l'objet du champ n'est pas initialisé.
+	 */
+	public boolean isTransactionnable(Field field, Object objectToSave) throws Exception {
+		boolean isTransac = false;
+		Annotation[] annotations = field.getType().getAnnotations();
+		for (Annotation annotation : annotations) {
+			if (annotation instanceof Transactionnable) {
+				isTransac = true;
+				break;
+			}
+		}
+		return isTransac;
 	}
 
 	/**
@@ -154,59 +135,43 @@ public class BackupManager<T> {
 	 * @throws ArrayIndexOutOfBoundsException
 	 * @throws Exception
 	 */
-	public void restore(T objectToRestore)
-			throws ArrayIndexOutOfBoundsException, IllegalArgumentException,
-			IllegalAccessException {
+	public void restore(T objectToRestore) throws ArrayIndexOutOfBoundsException, IllegalArgumentException, IllegalAccessException {
 
 		// on récupère les Field de l'objet
 		Field[] fields = objectToRestore.getClass().getDeclaredFields();
-
-		// parcours de tous les attributs de backup pour récupérer les valeurs
-		// et les restaurer dans l'objet
+		// parcours de tous les attributs de backup pour récupérer les valeurs et les restaurer dans l'objet
 		for (Field field : fields) {
 			field.setAccessible(true);
-
+			
 			// on ne peut pas "set" une variable final
 			if (!Modifier.isFinal(field.getModifiers())) {
-
 				if (field.getType().isArray()) {
-
 					// int[] array = (int[]) values.get(field);
-
 					// Array.set(field.get(objectToRestore), 0, array[0]);
 					// Array.set(field.get(objectToRestore), 1, array[1]);
-
 				} else {
-					// field.set(objectToRestore, values.get(field));
+					// on regarde si ce field est une copie ou une référence
+					Object copy = copies.get(field);
+					Object reference = references.get(field);
+					
+					if (copy == null && reference != null) {
+						// si le field est une référence, on set l'ancienne référence
+						field.set(objectToRestore, reference);
+						
+					} else if (copy != null && reference == null) {
+						
+						if (field.getType().isPrimitive()) {
+							// si le field à été copié par copie, et que c'est un type primitif
+							field.set(objectToRestore, copy);
+						} else {
+							// si le field à été copié par copie, et que c'est un objet transactionnable
+							// TODO gérer...
+						}
+					} else {
+						System.err.println("Error... BackupManager method restore. Field " + field.getName());
+					}
 				}
 			}
 		}
-
-		// System.out.println("after restore");
-		// Set<Field> set = values.keySet();
-		// for (Field field : set) {
-		// System.out.println(field.getType().isArray() + " | map : " +
-		// values.get(field) + " | object : " + field.get(objectToRestore));
-		// }
 	}
-
-	/**
-	 * Méthode permettant d'afficher les informations d'une class (le nombre, le
-	 * type et le nom des attributs présent dans la classe)
-	 * 
-	 * @param classObject
-	 *            : Class de l'objet
-	 */
-	public void showInformation(Class<?> classObject) {
-		Field[] fields = classObject.getDeclaredFields();
-
-		System.out.printf("%d fields:%n", fields.length);
-
-		for (Field field : fields) {
-			System.out.printf("%s %s %s%n", Modifier.toString(field
-					.getModifiers()), field.getType().getSimpleName(), field
-					.getName());
-		}
-	}
-
 }

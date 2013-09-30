@@ -1,7 +1,6 @@
 package fr.upmc.ta.aladyn.tests;
 
 import java.awt.Point;
-
 import fr.upmc.ta.aladyn.backup.BackupManager;
 
 public class MainTest {
@@ -10,9 +9,7 @@ public class MainTest {
 
 		try {
 			Point point = new Point(10, 5);
-			System.out.println("point à la création : X " + point.getX()
-					+ " Y " + point.getY());
-
+			System.out.println("point à la création : X " + point.getX() + " Y " + point.getY());
 			System.out.println("Réalisation du backup");
 			BackupManager<Point> backUp = new BackupManager<>();
 			backUp.save(point);
@@ -28,10 +25,8 @@ public class MainTest {
 			// backUp.restore(point);
 			// System.out.println("point apres le restore : X " + point.getX()
 			// + " Y " + point.getY());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

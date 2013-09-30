@@ -8,6 +8,7 @@ public class MyPoint {
 	private int[] tab;
 
 	public MyPoint(double x_value, double y_value, int tab0, int tab1) {
+
 		super();
 		x = x_value;
 		y = y_value;
@@ -17,26 +18,32 @@ public class MyPoint {
 	}
 
 	public MyPoint() {
+
 		this(0, 0, 2, 3);
 	}
 
 	public double getX() {
+
 		return x;
 	}
 
 	public double getY() {
+
 		return y;
 	}
 
 	public int getTab0() {
+
 		return tab[0];
 	}
 
 	public int getTab1() {
+
 		return tab[1];
 	}
 
 	public void failMethod() throws MethodException {
+
 		this.x++;
 		this.y--;
 		this.tab[0] += 5;
