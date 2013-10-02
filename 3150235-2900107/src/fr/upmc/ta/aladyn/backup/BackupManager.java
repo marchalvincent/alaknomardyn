@@ -66,6 +66,7 @@ public class BackupManager<T> {
 					this.saveField(field, objectToSave);
 				}
 			}
+			field.setAccessible(false);
 		}
 	}
 
@@ -172,6 +173,7 @@ public class BackupManager<T> {
 					}
 				}
 			}
+			field.setAccessible(false);
 		}
 	}
 }
