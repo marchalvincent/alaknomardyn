@@ -1,37 +1,19 @@
 package fr.upmc.ta.aladyn.tests;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import java.lang.reflect.Field;
+
 import org.junit.Test;
+
 import fr.upmc.ta.aladyn.BackupException;
 import fr.upmc.ta.aladyn.MethodException;
 import fr.upmc.ta.aladyn.backup.BackupManager;
 import fr.upmc.ta.aladyn.tests.objects.MyTransactionnable;
+import fr.upmc.ta.aladyn.tests.objects.Tata;
 import fr.upmc.ta.aladyn.tests.objects.Titi;
 
-
+//TODO test sur les tableaux
+//TODO test sur l'héritage
 public class BackupManagerTest {
-
-	/**
-	 * Teste la méthode isTransactionnable de la classe BackupManager.
-	 * @throws Exception
-	 */
-	@Test
-	public final void isTransactionnableTest() throws Exception {
-
-		MyTransactionnable mt = new MyTransactionnable();
-		Field[] fields = mt.getClass().getDeclaredFields();
-		BackupManager<MyTransactionnable> bm = new BackupManager<>();
-		
-		for (Field field : fields) {
-			field.setAccessible(true);
-			if (field.getName().contains("transactionnable"))
-				assertTrue(bm.isTransactionnable(field, mt));
-			else 
-				assertFalse(bm.isTransactionnable(field, mt));
-		}
-	}
 	
 	/**
 	 * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
@@ -92,17 +74,21 @@ public class BackupManagerTest {
 		// on enregistre les références
 		Titi titi = mt.object_titi;
 		Integer integer = mt.object_x;
+		Tata tata = mt.transactionnable_tata;
 
 		assertTrue(mt.object_x == integer);
 		assertTrue(mt.object_x.equals(0));
 
 		assertTrue(mt.object_titi == titi);
 		assertTrue(mt.object_titi.x.equals(0));
+
+		assertTrue(mt.transactionnable_tata == tata);
+		assertTrue(mt.transactionnable_tata.equals(tata));
 		
 		BackupManager<MyTransactionnable> bm = new BackupManager<>();
 		bm.save(mt);
 		
-		mt.modifyObjectNonTransactionnable();
+		mt.modifyObjects();
 		// object_x à changé de référence et de valeur
 		assertTrue(mt.object_x != integer);
 		assertTrue(mt.object_x.equals(2));
@@ -110,6 +96,10 @@ public class BackupManagerTest {
 		// object_titi n'a pas changé de référence mais de valeur
 		assertTrue(mt.object_titi == titi);
 		assertTrue(!mt.object_titi.x.equals(0));
+		
+
+		assertTrue(mt.transactionnable_tata != tata);
+		assertTrue(!mt.transactionnable_tata.equals(tata));
 		
 		try {
 			mt.failMethod();
@@ -137,10 +127,9 @@ public class BackupManagerTest {
 		 */
 		assertTrue(mt.object_titi == titi);
 		assertTrue(!mt.object_titi.x.equals(0));
-	}
-
-	@Test
-	public final void objectTransactionnableTest() {
 		
+
+		assertTrue(mt.transactionnable_tata == tata);
+		assertTrue(mt.transactionnable_tata.equals(tata));
 	}
 }

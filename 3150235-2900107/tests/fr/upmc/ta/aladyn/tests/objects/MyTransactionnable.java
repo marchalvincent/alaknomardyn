@@ -3,6 +3,12 @@ package fr.upmc.ta.aladyn.tests.objects;
 import fr.upmc.ta.aladyn.MethodException;
 import fr.upmc.ta.aladyn.Transactionnable;
 
+/**
+ * 
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ *
+ */
 @Transactionnable
 public class MyTransactionnable {
 	
@@ -35,16 +41,12 @@ public class MyTransactionnable {
 	}
 	
 	/**
-	 * Cette méthode change la référence de la variable object_x et le contenu de la variable object_titi
+	 * Cette méthode change les valeurs et/ou références des objets de la classe
 	 */
-	public void modifyObjectNonTransactionnable() {
+	public void modifyObjects() {
 		object_x = new Integer(2);
 		object_titi.x ++;
-	}
-	
-	public void modifyObjectTransactionnable() {
-		object_x = new Integer(2);
-		object_titi = new Titi();
+		transactionnable_tata = new Tata(2);
 	}
 	
 	public void failMethod() throws MethodException {

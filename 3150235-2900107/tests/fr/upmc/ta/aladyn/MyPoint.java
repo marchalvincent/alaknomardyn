@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests;
+package fr.upmc.ta.aladyn;
 
 import fr.upmc.ta.aladyn.MethodException;
 
@@ -21,9 +21,14 @@ public class MyPoint {
 
 		this(0, 0, 2, 3);
 	}
+	
+	public MyPoint(int x, int y) {
+		this(x, y, 0, 0);
+	}
 
 	public double getX() {
 
+		System.out.println("toto");
 		return x;
 	}
 
