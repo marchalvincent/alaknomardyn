@@ -10,7 +10,7 @@ import fr.upmc.ta.aladyn.Transactionnable;
  *
  */
 @Transactionnable
-public class MyTransactionnable {
+public class MyTransactionnable extends MyMother {
 	
 	// transactionnable
 	public Tata transactionnable_tata;
@@ -23,6 +23,9 @@ public class MyTransactionnable {
 	public int primitif_y;
 	public boolean primitif_b;
 	
+	// tableau
+	public int[] table_t;
+	
 	public MyTransactionnable() {
 		super();
 		
@@ -33,6 +36,10 @@ public class MyTransactionnable {
 		
 		primitif_y = 0;
 		primitif_b = true;
+		
+		table_t = new int[2];
+		table_t[0] = 2;
+		table_t[1] = 1;
 	}
 	
 	public void modifyPrimitif() {
@@ -47,6 +54,12 @@ public class MyTransactionnable {
 		object_x = new Integer(2);
 		object_titi.x ++;
 		transactionnable_tata = new Tata(2);
+	}
+	
+	public void modifyTable() {
+		table_t = new int[2];
+		table_t[0] = 4;
+		table_t[1] = 5;
 	}
 	
 	public void failMethod() throws MethodException {

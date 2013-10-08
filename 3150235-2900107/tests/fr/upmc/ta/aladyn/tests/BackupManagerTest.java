@@ -11,8 +11,6 @@ import fr.upmc.ta.aladyn.tests.objects.MyTransactionnable;
 import fr.upmc.ta.aladyn.tests.objects.Tata;
 import fr.upmc.ta.aladyn.tests.objects.Titi;
 
-//TODO test sur les tableaux
-//TODO test sur l'héritage
 public class BackupManagerTest {
 	
 	/**
@@ -131,5 +129,104 @@ public class BackupManagerTest {
 
 		assertTrue(mt.transactionnable_tata == tata);
 		assertTrue(mt.transactionnable_tata.equals(tata));
+	}
+	
+	/**
+	 * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
+	 * <ul>
+	 * <li>Si la référence vers un tableau est changée, alors elle est rétablie</li>
+	 * </ul>
+	 * @throws Exception
+	 */
+	@Test
+	public final void tableTest() throws Exception {
+		
+		MyTransactionnable mt = new MyTransactionnable();
+		int[] table = mt.table_t;
+		assertTrue(mt.table_t == table);
+		assertTrue(mt.table_t[0] == 2);
+		assertTrue(mt.table_t[1] == 1);
+		
+		BackupManager<MyTransactionnable> bm = new BackupManager<>();
+		bm.save(mt);
+		
+		mt.modifyTable();
+		assertTrue(mt.table_t != table);
+		assertTrue(mt.table_t[0] != 2);
+		assertTrue(mt.table_t[1] != 1);
+		
+		try {
+			mt.failMethod();
+		} catch (MethodException e) {
+			
+			System.err.print(e.getMessage());
+			// et on tente le restore
+			try {
+				bm.restore(mt);
+				System.out.println(" But restored.");
+			} catch (Exception e2) {
+				// ici, le restore a aussi raté
+				System.out.println();
+				throw new BackupException("Backup fail. " + e2.getMessage());
+			}
+		}
+
+		assertTrue(mt.table_t == table);
+		assertTrue(mt.table_t[0] == 2);
+		assertTrue(mt.table_t[1] == 1);
+	}
+	
+	/**
+	 * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
+	 * <ul>
+	 * <li>Si les valeurs ou références d'une classe mère sont modifiés, alors elles sont rétablies</li>
+	 * </ul>
+	 * @throws Exception
+	 */
+	@Test
+	public final void heritageTest() throws Exception {
+
+		MyTransactionnable mt = new MyTransactionnable();
+		
+		int x = mt.x;
+		Tata tata = mt.getTata();
+		Double myDouble = mt.getDouble();
+		Double mySuperDouble = mt.getSuperDouble();
+		
+		assertTrue(mt.x == x);
+		assertTrue(mt.getTata() == tata);
+		assertTrue(mt.getDouble() == myDouble);
+		assertTrue(mt.getSuperDouble() == mySuperDouble);
+		
+		BackupManager<MyTransactionnable> bm = new BackupManager<>();
+		bm.save(mt);
+		
+		mt.modifyMotherField();
+		
+		assertTrue(mt.x != x);
+		assertTrue(!mt.getTata().equals(tata));
+		assertTrue(mt.getDouble() != myDouble);
+		assertTrue(mt.getSuperDouble() != mySuperDouble);
+		
+		try {
+			mt.failMethod();
+		} catch (MethodException e) {
+			
+			System.err.print(e.getMessage());
+			// et on tente le restore
+			try {
+				bm.restore(mt);
+				System.out.println(" But restored.");
+			} catch (Exception e2) {
+				// ici, le restore a aussi raté
+				System.out.println();
+				throw new BackupException("Backup fail. " + e2.getMessage());
+			}
+		}
+
+		assertTrue(mt.x == x);
+		assertTrue(mt.getTata() == tata);
+		assertTrue(mt.getDouble() == myDouble);
+		assertTrue(mt.getSuperDouble() == mySuperDouble);
 	}
 }

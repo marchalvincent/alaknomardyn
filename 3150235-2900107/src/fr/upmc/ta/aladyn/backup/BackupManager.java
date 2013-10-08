@@ -36,19 +36,27 @@ public class BackupManager<T> {
 	 */
 	public void save(T objectToSave) throws Exception {
 
-		// on récupère les Field de l'objet
-		Field[] fields = objectToSave.getClass().getDeclaredFields();
-		// parcours de tous les attributs de l'objet afin de récupérer les valeurs des attributs et les sauvegarder
+		Class<?> clazz = objectToSave.getClass();
 		
-		for (Field field : fields) {
-			field.setAccessible(true);
+		while (!clazz.equals(Object.class)) {
+
+			// on récupère les Field de l'objet
+			Field[] fields = clazz.getDeclaredFields();
+			// parcours de tous les attributs de l'objet afin de récupérer les valeurs des attributs et les sauvegarder
+			for (Field field : fields) {
+				field.setAccessible(true);
+				
+				// on ne peut pas "set" une variable final, il ne sert a rien de l'avoir en mémoire
+				if (!Modifier.isFinal(field.getModifiers()))
+					savedFields.put(field, field.get(objectToSave));
+				
+				field.setAccessible(false);
+			}
 			
-			// on ne peut pas "set" une variable final, il ne sert a rien de l'avoir en mémoire
-			if (!Modifier.isFinal(field.getModifiers()))
-				savedFields.put(field, field.get(objectToSave));
-			
-			field.setAccessible(false);
+			clazz = clazz.getSuperclass();
 		}
+		
+		
 	}
 
 	/**
@@ -64,21 +72,28 @@ public class BackupManager<T> {
 	 */
 	public void restore(T objectToRestore) throws ArrayIndexOutOfBoundsException, IllegalArgumentException, IllegalAccessException, BackupException {
 
-		// on récupère les Field de l'objet
-		Field[] fields = objectToRestore.getClass().getDeclaredFields();
-		// parcours de tous les attributs de backup pour récupérer les valeurs et les restaurer dans l'objet
-		for (Field field : fields) {
-			field.setAccessible(true);
+		Class<?> clazz = objectToRestore.getClass();
+		
+		while (!clazz.equals(Object.class)) {
 			
-			// on ne peut pas "set" une variable final
-			if (!Modifier.isFinal(field.getModifiers())) {
-				if (!savedFields.containsKey(field))
-					throw new BackupException("The field is not contained in the backup.");
+			// on récupère les Field de l'objet
+			Field[] fields = clazz.getDeclaredFields();
+			// parcours de tous les attributs de backup pour récupérer les valeurs et les restaurer dans l'objet
+			for (Field field : fields) {
+				field.setAccessible(true);
 				
-				field.set(objectToRestore, savedFields.get(field));
+				// on ne peut pas "set" une variable final
+				if (!Modifier.isFinal(field.getModifiers())) {
+					if (!savedFields.containsKey(field))
+						throw new BackupException("The field is not contained in the backup.");
+					
+					field.set(objectToRestore, savedFields.get(field));
+				}
+				
+				field.setAccessible(false);
 			}
 			
-			field.setAccessible(false);
+			clazz = clazz.getSuperclass();
 		}
 	}
 }
