@@ -1,7 +1,9 @@
 package fr.upmc.ta.aladyn.tests;
 
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+
 import fr.upmc.ta.aladyn.BackupException;
 import fr.upmc.ta.aladyn.MethodException;
 import fr.upmc.ta.aladyn.backup.BackupManager;
