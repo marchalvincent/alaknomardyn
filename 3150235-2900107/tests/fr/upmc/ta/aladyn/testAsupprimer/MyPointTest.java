@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.testAsupprimer;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -39,9 +39,5 @@ public class MyPointTest {
 				throw new BackupException("Backup fail. " + e2.getMessage());
 			}
 		}
-		// assertTrue(point.getX() == 10);
-		// assertTrue(point.getY() == 5);
-		// assertTrue(point.getTab0() == 3);
-		// assertTrue(point.getTab1() == 4);
 	}
 }

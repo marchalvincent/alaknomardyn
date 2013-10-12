@@ -42,10 +42,12 @@ public class BackupManagerTest {
 			assertTrue(mt.primitif_b != true);
 			
 			System.err.print(e.getMessage());
+			System.err.flush();
 			// et on tente le restore
 			try {
 				bm.restore(mt);
 				System.out.println(" But restored.");
+				System.out.flush();
 			} catch (Exception e2) {
 				// ici, le restore a aussi raté
 				System.out.println();
@@ -104,10 +106,12 @@ public class BackupManagerTest {
 		} catch (MethodException e) {
 			
 			System.err.print(e.getMessage());
+			System.err.flush();
 			// on tente le restore
 			try {
 				bm.restore(mt);
 				System.out.println(" But restored.");
+				System.out.flush();
 			} catch (Exception e2) {
 				// ici, le restore a aussi raté
 				System.out.println();
@@ -160,10 +164,12 @@ public class BackupManagerTest {
 		} catch (MethodException e) {
 			
 			System.err.print(e.getMessage());
+			System.err.flush();
 			// et on tente le restore
 			try {
 				bm.restore(mt);
 				System.out.println(" But restored.");
+				System.out.flush();
 			} catch (Exception e2) {
 				// ici, le restore a aussi raté
 				System.out.println();
@@ -213,10 +219,12 @@ public class BackupManagerTest {
 		} catch (MethodException e) {
 			
 			System.err.print(e.getMessage());
+			System.err.flush();
 			// et on tente le restore
 			try {
 				bm.restore(mt);
 				System.out.println(" But restored.");
+				System.out.flush();
 			} catch (Exception e2) {
 				// ici, le restore a aussi raté
 				System.out.println();

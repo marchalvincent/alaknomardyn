@@ -1,22 +1,21 @@
 package fr.upmc.ta.aladyn.utils;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-
+import javassist.CtClass;
 import fr.upmc.ta.aladyn.Transactionnable;
 
 public class Utils {
-
-	/**
-	 * Parcours les annotations de la classe du champ passé en paramètre.
-	 * @param field
-	 * @return true si le champ est un objet transactionnable, false sinon.
-	 * @throws Exception si une erreur survient. Typiquement, l'objet du champ n'est pas initialisé.
-	 */
-	public static boolean isClassTransactionnable(Field field, Object objectToSave) throws Exception {
+	
+	public static boolean isClassTransactionnable(Class<?> clazz) {
+		return findTransactionnable(clazz.getAnnotations());
+	}
+	
+	public static boolean isCtClassTransactionnable(CtClass ctClass) throws ClassNotFoundException {
+		return findTransactionnable(ctClass.getAnnotations());
+	}
+	
+	private static boolean findTransactionnable(Object[] annotations) {
 		boolean isTransac = false;
-		Annotation[] annotations = field.getType().getAnnotations();
-		for (Annotation annotation : annotations) {
+		for (Object annotation : annotations) {
 			if (annotation instanceof Transactionnable) {
 				isTransac = true;
 				break;
