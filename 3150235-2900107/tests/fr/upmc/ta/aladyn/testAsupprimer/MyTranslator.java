@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.testAsupprimer;
 
 import java.io.IOException;
 
@@ -29,10 +29,8 @@ public class MyTranslator implements Translator {
 	}
 
 	@Override
-	public void start(ClassPool arg0) throws NotFoundException,
-			CannotCompileException {
+	public void start(ClassPool arg0) throws NotFoundException, CannotCompileException {
 		// TODO Auto-generated method stub
-
 	}
 
 }

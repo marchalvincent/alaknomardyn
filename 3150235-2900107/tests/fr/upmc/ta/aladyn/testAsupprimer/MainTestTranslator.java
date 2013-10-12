@@ -1,7 +1,7 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.testAsupprimer;
 
 
-public class MainTest {
+public class MainTestTranslator {
 
 	public static void main(String[] args) {
 		MyPoint point = new MyPoint(2,3);

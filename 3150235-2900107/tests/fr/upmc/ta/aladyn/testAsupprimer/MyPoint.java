@@ -1,14 +1,15 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.testAsupprimer;
 
 import fr.upmc.ta.aladyn.MethodException;
+import fr.upmc.ta.aladyn.Transactionnable;
 
+@Transactionnable
 public class MyPoint {
 
 	private Double x, y;
 	private int[] tab;
 
 	public MyPoint(double x_value, double y_value, int tab0, int tab1) {
-
 		super();
 		x = x_value;
 		y = y_value;
@@ -18,7 +19,6 @@ public class MyPoint {
 	}
 
 	public MyPoint() {
-
 		this(0, 0, 2, 3);
 	}
 	
@@ -27,28 +27,22 @@ public class MyPoint {
 	}
 
 	public double getX() {
-
-		System.out.println("toto");
 		return x;
 	}
 
 	public double getY() {
-
 		return y;
 	}
 
 	public int getTab0() {
-
 		return tab[0];
 	}
 
 	public int getTab1() {
-
 		return tab[1];
 	}
 
 	public void failMethod() throws MethodException {
-
 		this.x++;
 		this.y--;
 		this.tab[0] += 5;

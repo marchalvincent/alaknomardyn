@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.testAsupprimer;
 
 import javassist.ClassPool;
 import javassist.Loader;
@@ -12,7 +12,7 @@ public class MainTestSsist {
 
 		Translator t = new MyTranslator();
 		loader.addTranslator(pool, t);
-		loader.run("fr.upmc.ta.aladyn.MainTest", args);
+		loader.run("fr.upmc.ta.aladyn.testAsupprimer.MainTestTranslator", args);
 	}
 
 }
