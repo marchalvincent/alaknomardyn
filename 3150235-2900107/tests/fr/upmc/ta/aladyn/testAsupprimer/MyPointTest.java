@@ -31,7 +31,7 @@ public class MyPointTest {
 			System.err.print(e.getMessage());
 			// et on tente le restore
 			try {
-				backUp.restore(point);
+				backUp.restore();
 				System.out.println(" But restored.");
 			} catch (Exception e2) {
 				// ici, le restore a aussi raté

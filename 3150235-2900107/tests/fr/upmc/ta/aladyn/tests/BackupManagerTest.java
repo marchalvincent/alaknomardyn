@@ -11,6 +11,13 @@ import fr.upmc.ta.aladyn.tests.objects.MyTransactionnable;
 import fr.upmc.ta.aladyn.tests.objects.Tata;
 import fr.upmc.ta.aladyn.tests.objects.Titi;
 
+/**
+ * Classe de tests pour le BackupManager qui se charge de sauvegarder et restaurer
+ * l'état d'un objet.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ *
+ */
 public class BackupManagerTest {
 	
 	/**
@@ -45,7 +52,7 @@ public class BackupManagerTest {
 			System.err.flush();
 			// et on tente le restore
 			try {
-				bm.restore(mt);
+				bm.restore();
 				System.out.println(" But restored.");
 				System.out.flush();
 			} catch (Exception e2) {
@@ -109,7 +116,7 @@ public class BackupManagerTest {
 			System.err.flush();
 			// on tente le restore
 			try {
-				bm.restore(mt);
+				bm.restore();
 				System.out.println(" But restored.");
 				System.out.flush();
 			} catch (Exception e2) {
@@ -167,7 +174,7 @@ public class BackupManagerTest {
 			System.err.flush();
 			// et on tente le restore
 			try {
-				bm.restore(mt);
+				bm.restore();
 				System.out.println(" But restored.");
 				System.out.flush();
 			} catch (Exception e2) {
@@ -222,7 +229,7 @@ public class BackupManagerTest {
 			System.err.flush();
 			// et on tente le restore
 			try {
-				bm.restore(mt);
+				bm.restore();
 				System.out.println(" But restored.");
 				System.out.flush();
 			} catch (Exception e2) {
