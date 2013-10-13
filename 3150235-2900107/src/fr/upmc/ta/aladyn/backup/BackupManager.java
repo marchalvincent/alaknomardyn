@@ -17,10 +17,10 @@ import fr.upmc.ta.aladyn.BackupException;
  */
 public class BackupManager<T> {
 
+	private T objectToRestore;
 	private Map<Field, Object> savedFields;
 
 	public BackupManager() {
-
 		super();
 		savedFields = new HashMap<>();
 	}
@@ -36,8 +36,9 @@ public class BackupManager<T> {
 	 */
 	public void save(T objectToSave) throws Exception {
 
+		objectToRestore = objectToSave;
 		Class<?> clazz = objectToSave.getClass();
-		
+		// on boucle pour sauvegarder les fields des classes mères
 		while (!clazz.equals(Object.class)) {
 
 			// on récupère les Field de l'objet
@@ -52,28 +53,22 @@ public class BackupManager<T> {
 				
 				field.setAccessible(false);
 			}
-			
 			clazz = clazz.getSuperclass();
 		}
-		
-		
 	}
 
 	/**
-	 * Méthode permettant de restaurer un objet préalablement sauvegardé
+	 * Méthode permettant de restaurer l'objet préalablement sauvegardé
 	 * 
-	 * @param objectToRestore
-	 *            : Object à restaurer
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws ArrayIndexOutOfBoundsException
-	 * @throws BackupException 
 	 * @throws Exception
 	 */
-	public void restore(T objectToRestore) throws ArrayIndexOutOfBoundsException, IllegalArgumentException, IllegalAccessException, BackupException {
+	public void restore() throws Exception {
 
-		Class<?> clazz = objectToRestore.getClass();
+		if (objectToRestore == null)
+			throw new BackupException("The object must be saved before to be restored.");
 		
+		Class<?> clazz = objectToRestore.getClass();
+		// on boucle pour restorer les fields des classes mères
 		while (!clazz.equals(Object.class)) {
 			
 			// on récupère les Field de l'objet
@@ -84,15 +79,14 @@ public class BackupManager<T> {
 				
 				// on ne peut pas "set" une variable final
 				if (!Modifier.isFinal(field.getModifiers())) {
+					// petit test qui ne devrait jamais renvoyer l'exception
 					if (!savedFields.containsKey(field))
 						throw new BackupException("The field is not contained in the backup.");
 					
 					field.set(objectToRestore, savedFields.get(field));
 				}
-				
 				field.setAccessible(false);
 			}
-			
 			clazz = clazz.getSuperclass();
 		}
 	}
