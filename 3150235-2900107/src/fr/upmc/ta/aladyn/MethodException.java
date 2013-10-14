@@ -2,10 +2,10 @@ package fr.upmc.ta.aladyn;
 
 public class MethodException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MethodException(String message) {
+    public MethodException(String message) {
 
-		super(message);
-	}
+	super(message);
+    }
 }
