@@ -49,4 +49,10 @@ public class MyPoint {
 	this.tab[1] -= 5;
 	throw new MethodException("Method fail.");
     }
+    
+    @Transactionnable
+    public void transactionnableMethod() throws Exception {
+	System.out.println("hello you");
+	throw new Exception("MyException");
+    }
 }
