@@ -6,4 +6,5 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ BackupManagerTest.class, UtilsTests.class })
-public class AllTests {}
+public class AllTests {
+}
