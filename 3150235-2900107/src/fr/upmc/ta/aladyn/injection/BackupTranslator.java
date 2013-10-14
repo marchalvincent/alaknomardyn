@@ -40,7 +40,8 @@ public class BackupTranslator implements Translator {
 	for (CtMethod method : ctClass.getMethods()) {
 	    if (method.hasAnnotation(Transactionnable.class)) {
 		// injection des méthodes transactionnables
-		this.injectMethod(method);
+		CtClass ctClassException = pool.get("Exception");
+		this.injectMethod(method, ctClassException);
 	    }
 	}
     }
@@ -79,21 +80,23 @@ public class BackupTranslator implements Translator {
      * 
      * @param method
      *            la méthode à injecter.
+     * @param ctClassException la classe Exception représentée en CtClass
      * @throws CannotCompileException
      *             si le code injecté ne compile pas.
      */
-    private void injectMethod(CtMethod method) throws CannotCompileException {
+    private void injectMethod(CtMethod method, CtClass ctClassException) throws CannotCompileException {
+
 	/*
-	 * 1. Première étape, on injecte avant et après la méthode la création et suppression d'une {@link CtMethodExecuted} dans
+	 * 1. Première étape, le traitement des exceptions, avec les restores
+	 */
+	method.addCatch("MethodeCouranteManager.instance.restoreBackupsOfLastMethod();", ctClassException);
+	
+	/*
+	 * 2. Deuxième étape, on injecte avant et après la méthode la création et suppression d'une {@link CtMethodExecuted} dans
 	 * le singleton {@link MethodeCouranteManager}.
 	 */
 	method.insertBefore("MethodeCouranteManager.instance.newTransactionnableMethod();");
 	method.insertAfter("MethodeCouranteManager.instance.endOfTransactionnableMethod();");
-
-	/*
-	 * 2. Deuxième étape, le traitement des exceptions, avec les restores
-	 */
-	// TODO
     }
 
 }
