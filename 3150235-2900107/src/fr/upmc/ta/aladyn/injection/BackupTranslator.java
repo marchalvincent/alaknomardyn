@@ -40,7 +40,7 @@ public class BackupTranslator implements Translator {
 	for (CtMethod method : ctClass.getMethods()) {
 	    if (method.hasAnnotation(Transactionnable.class)) {
 		// injection des méthodes transactionnables
-		CtClass ctClassException = pool.get("Exception");
+		CtClass ctClassException = pool.get("java.lang.Throwable");
 		this.injectMethod(method, ctClassException);
 	    }
 	}
@@ -56,13 +56,15 @@ public class BackupTranslator implements Translator {
      *             si le code injecté ne compile pas.
      */
     private void injectSetters(CtClass ctClass) throws InjectionException {
+	
 	// on parcours tout les setters afin de faire un save
 	for (CtMethod method : ctClass.getMethods()) {
 	    if (method.getName().startsWith("set")) {
 		// on insère la sauvegarde de l'objet au début du setter
 		try {
-		    method.insertBefore("BackupManager bm = new BackupManager(this);"
-			    + "MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
+//		    MethodeCouranteManager.instance.addBackupToCurrentMethod(null);
+		    method.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new BackupManager(this);"
+			    + "fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
 
 		} catch (CannotCompileException e) {
 		    throw new InjectionException(e.getMessage());
@@ -89,14 +91,14 @@ public class BackupTranslator implements Translator {
 	/*
 	 * 1. Première étape, le traitement des exceptions, avec les restores
 	 */
-	method.addCatch("MethodeCouranteManager.instance.restoreBackupsOfLastMethod();", ctClassException);
+	method.addCatch("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.restoreBackupsOfLastMethod(); return;", ctClassException);
 	
 	/*
 	 * 2. Deuxième étape, on injecte avant et après la méthode la création et suppression d'une {@link CtMethodExecuted} dans
 	 * le singleton {@link MethodeCouranteManager}.
 	 */
-	method.insertBefore("MethodeCouranteManager.instance.newTransactionnableMethod();");
-	method.insertAfter("MethodeCouranteManager.instance.endOfTransactionnableMethod();");
+	method.insertBefore("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.newTransactionnableMethod();");
+	method.insertAfter("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.endOfTransactionnableMethod();");
     }
 
 }
