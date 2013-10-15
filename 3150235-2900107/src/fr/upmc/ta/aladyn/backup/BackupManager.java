@@ -71,7 +71,7 @@ public class BackupManager {
     }
 
     /**
-     * Méthode permettant de restaurer l'objet préalablement sauvegardé
+     * Méthode permettant de restaurer l'objet préalablement sauvegardé.
      * 
      * @throws Exception
      */
