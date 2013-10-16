@@ -42,18 +42,19 @@ public class TransMetaObj extends Metaobject {
 	    // Création du {@link BackupManager} de l'objet applant
 	    MethodeCouranteManager.instance.addBackupToCurrentMethod(new BackupManager(getObject()));
 
-	    Object o = new Object();
+	    Object result;
 	    try {
-		o = super.trapMethodcall(identifier, args);
+		result = super.trapMethodcall(identifier, args);
 	    } catch (Throwable e) {
 		/**
 		 * Appel de la restoration
 		 */
-		MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
 		System.out.println("Appel de la méthode restore");
+		MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
+		throw e;
 	    }
 	    MethodeCouranteManager.instance.endOfTransactionnableMethod();
-	    return o;
+	    return result;
 	} else {
 	    return super.trapMethodcall(identifier, args);
 	}
