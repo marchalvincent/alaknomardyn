@@ -29,17 +29,15 @@ public class MethodeCouranteManager {
     Stack<CtMethodExecuted> stackMethods;
 
     /**
-     * Créé une nouvelle {@link CtMethodExecuted} et la push dans la Stack des
-     * méthodes en cours. Cette méthode est à appeler en début de méthode
-     * transactionnable.
+     * Créé une nouvelle {@link CtMethodExecuted} et la push dans la Stack des méthodes en cours. Cette méthode est à appeler 
+     * en début de méthode transactionnable.
      */
     public void newTransactionnableMethod() {
 	stackMethods.push(new CtMethodExecuted());
     }
 
     /**
-     * Dépile la stack des méthodes en cours. Cette méthode est à appeler en fin
-     * de méthode transactionnable.
+     * Dépile la stack des méthodes en cours. Cette méthode est à appeler en fin de méthode transactionnable.
      * 
      * @throws InjectionException
      *             Cette exception est levée si aucune méthode transactionnable
@@ -54,8 +52,7 @@ public class MethodeCouranteManager {
     }
 
     /**
-     * Ajoute un backup d'objet dans la liste de la méthode transactionnable
-     * courrante (celle qui est au dessus de la stack).
+     * Ajoute un backup d'objet dans la liste de la méthode transactionnable courrante (celle qui est au dessus de la stack).
      * 
      * @param backup
      *            le backup de l'objet enregistré
@@ -69,8 +66,7 @@ public class MethodeCouranteManager {
     }
 
     /**
-     * Fait appel à la méthode restore de l'ensemble des backupManager de la
-     * méthode transactionnable courrante.
+     * Fait appel à la méthode restore de l'ensemble des backupManager de la méthode transactionnable courrante.
      * 
      * @return une List de {@link BackupManager}.
      */

@@ -18,7 +18,37 @@ import fr.upmc.ta.aladyn.tests.objects.Titi;
  * @author Michel Knoertzer & Vincent Marchal
  * 
  */
-public class BackupManagerTest {
+public final class BackupManagerTest {
+    
+    /**
+     * Test la méthode equals du backupManager
+     * @throws Exception 
+     */
+    @Test
+    public void backupManagerEqualsTest() throws Exception {
+	Tata tata = new Tata();
+	BackupManager bm1 = new BackupManager(tata);
+	
+	tata.x = 11;
+	BackupManager bm2 = new BackupManager(tata);
+	
+	assertTrue(bm1.equals(bm2));
+	
+	Tata tata2 = new Tata(tata);
+	BackupManager bm3 = new BackupManager(tata2);
+	
+	assertTrue(!bm2.equals(bm3));
+    }
+    
+    /**
+     * Test que l'on ne peut pas sauvegarder un objet non transactionnable
+     * @throws Exception 
+     */
+    @Test(expected=BackupException.class)
+    public void saveNonTransactionnableObject() throws Exception {
+	new BackupManager(new Titi());
+    }
+    
 
     /**
      * Teste les points suivants sur les variables d'un objet transactionnel
@@ -31,7 +61,7 @@ public class BackupManagerTest {
      * @throws Exception
      */
     @Test
-    public final void primitifRestoreTest() throws Exception {
+    public void primitifRestoreTest() throws Exception {
 
 	MyTransactionnable mt = new MyTransactionnable();
 	assertTrue(mt.primitif_y == 0);
@@ -80,7 +110,7 @@ public class BackupManagerTest {
      * @throws Exception
      */
     @Test
-    public final void objectNonTransactionnableTest() throws Exception {
+    public void objectNonTransactionnableTest() throws Exception {
 
 	MyTransactionnable mt = new MyTransactionnable();
 
@@ -156,7 +186,7 @@ public class BackupManagerTest {
      * @throws Exception
      */
     @Test
-    public final void tableTest() throws Exception {
+    public void tableTest() throws Exception {
 
 	MyTransactionnable mt = new MyTransactionnable();
 	int[] table = mt.table_t;
@@ -205,7 +235,7 @@ public class BackupManagerTest {
      * @throws Exception
      */
     @Test
-    public final void heritageTest() throws Exception {
+    public void heritageTest() throws Exception {
 
 	MyTransactionnable mt = new MyTransactionnable();
 

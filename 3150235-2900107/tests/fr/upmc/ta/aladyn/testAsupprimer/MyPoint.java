@@ -53,6 +53,12 @@ public class MyPoint {
     @Transactionnable
     public void transactionnableMethod() throws Exception {
 	System.out.println("hello you");
+	try {
+	    System.out.println("contenu du try normal");
+	    throw new Exception();
+	} catch (Exception e) {
+	    System.out.println("ici mon catch perso");
+	}
 	throw new Exception("MyException");
     }
 }

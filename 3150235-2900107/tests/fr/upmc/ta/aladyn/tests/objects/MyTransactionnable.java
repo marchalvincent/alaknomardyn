@@ -4,7 +4,7 @@ import fr.upmc.ta.aladyn.MethodException;
 import fr.upmc.ta.aladyn.Transactionnable;
 
 /**
- * 
+ * Cet objet transactionnable sert de test. Il contient tout type de champs.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  * 

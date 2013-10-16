@@ -8,7 +8,9 @@ public class MainTestTranslator {
 	try {
 	    point.transactionnableMethod();
 	} catch (Exception e) {
-	    System.err.println("Ca ne devrait pas arriver");
+	    System.out.flush();
+	    System.err.println("exception levee");
+	    System.err.flush();
 	}
 	
     }

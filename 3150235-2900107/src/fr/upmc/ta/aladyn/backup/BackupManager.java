@@ -21,7 +21,7 @@ public class BackupManager {
     private Object objectToRestore;
     private Map<Field, Object> savedFields;
 
-    public BackupManager(Object objectToSave) {
+    public BackupManager(Object objectToSave) throws Exception {
 	super();
 	savedFields = new HashMap<>();
 	try {
@@ -29,6 +29,7 @@ public class BackupManager {
 	} catch (Exception e) {
 	    System.err.println(e.getMessage());
 	    objectToRestore = null;
+	    throw e;
 	}
     }
 
@@ -46,7 +47,7 @@ public class BackupManager {
 
 	// petite vérification
 	if (!Utils.isClassTransactionnable(objectToSave.getClass())) {
-	    throw new BackupException("The object to save is not transactionnable.");
+	    throw new BackupException("BackupManager : The object to save is not transactionnable.");
 	}
 
 	objectToRestore = objectToSave;

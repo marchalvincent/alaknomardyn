@@ -6,6 +6,8 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.NotFoundException;
 import javassist.Translator;
+import javassist.expr.ExprEditor;
+import javassist.expr.Handler;
 import fr.upmc.ta.aladyn.InjectionException;
 import fr.upmc.ta.aladyn.Transactionnable;
 
@@ -40,8 +42,7 @@ public class BackupTranslator implements Translator {
 	for (CtMethod method : ctClass.getMethods()) {
 	    if (method.hasAnnotation(Transactionnable.class)) {
 		// injection des méthodes transactionnables
-		CtClass ctClassException = pool.get("java.lang.Throwable");
-		this.injectMethod(method, ctClassException);
+		this.injectMethod(method, pool);
 	    }
 	}
     }
@@ -56,13 +57,13 @@ public class BackupTranslator implements Translator {
      *             si le code injecté ne compile pas.
      */
     private void injectSetters(CtClass ctClass) throws InjectionException {
-	
+
 	// on parcours tout les setters afin de faire un save
 	for (CtMethod method : ctClass.getMethods()) {
 	    if (method.getName().startsWith("set")) {
 		// on insère la sauvegarde de l'objet au début du setter
 		try {
-//		    MethodeCouranteManager.instance.addBackupToCurrentMethod(null);
+		    // MethodeCouranteManager.instance.addBackupToCurrentMethod(null);
 		    method.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new BackupManager(this);"
 			    + "fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
 
@@ -74,31 +75,51 @@ public class BackupTranslator implements Translator {
     }
 
     /**
-     * Injecte du code en début et fin de la méthode de façon à :
+     * Injecte du code dans la méthode de façon à :
      * <ul>
+     * <li>Gérer le traitement des exceptions et des restores. Il faut non seulement ajouter un restore dans les clauses catch
+     * déjà existantes mais aussi gérer les exceptions sortantes de la méthode en restorant les objets transactionnables tout en
+     * relevant l'exception qui était levée à la base.</li>
      * <li>Empiler (resp. dépiler) une {@link CtMethodExecuted} dans la stack du {@link MethodeCouranteManager} en début (resp.
      * fin) de la méthode</li>
-     * <li>Gérer le traitement des exceptions et des restores.</li>
      * 
      * @param method
      *            la méthode à injecter.
-     * @param ctClassException la classe Exception représentée en CtClass
+     * @param pool
+     *            la ClassPool
      * @throws CannotCompileException
      *             si le code injecté ne compile pas.
+     * @throws NotFoundException
+     *             si la récupération de la classe Throwable ne fonctionne pas.
      */
-    private void injectMethod(CtMethod method, CtClass ctClassException) throws CannotCompileException {
+    private void injectMethod(CtMethod method, ClassPool pool) throws CannotCompileException, NotFoundException {
+
+	final String restoreObjects = "fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.restoreBackupsOfLastMethod();";
 
 	/*
-	 * 1. Première étape, le traitement des exceptions, avec les restores
+	 * 1. On ajoute le restore des objets dans les clauses catch déjà existantes
 	 */
-	method.addCatch("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.restoreBackupsOfLastMethod(); return;", ctClassException);
-	
+	method.instrument(new ExprEditor() {
+	    // on ne redéfinit que la méthode redéfinissant les clauses catchs
+	    public void edit(Handler catchClause) throws CannotCompileException {
+		// et on insère juste le restore des objets
+		catchClause.insertBefore(restoreObjects);
+	    }
+	});
+
 	/*
-	 * 2. Deuxième étape, on injecte avant et après la méthode la création et suppression d'une {@link CtMethodExecuted} dans
-	 * le singleton {@link MethodeCouranteManager}.
+	 * 2. On traite les exceptions sortantes à la méthode en restorant
+	 */
+	CtClass throwableCtClass = pool.get("java.lang.Throwable");
+	method.addCatch(restoreObjects + "throw $e;", throwableCtClass);
+
+	/*
+	 * 3. On injecte avant et après la méthode la création et suppression d'une {@link CtMethodExecuted} dans le singleton
+	 * {@link MethodeCouranteManager}.
 	 */
 	method.insertBefore("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.newTransactionnableMethod();");
 	method.insertAfter("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.endOfTransactionnableMethod();");
+
     }
 
 }
