@@ -21,8 +21,7 @@ import fr.upmc.ta.aladyn.utils.Utils;
 public class UtilsTests {
 
     /**
-     * Teste la méthode Utils.isClassTransactionnable(Class clazz) qui renvoie
-     * true si une classe est transactionnable.
+     * Teste la méthode Utils.isClassTransactionnable(Class clazz) qui renvoie true si une classe est transactionnable.
      */
     @Test
     public void isClassTransactionnableTest() {

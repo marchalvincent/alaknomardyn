@@ -12,50 +12,48 @@ import fr.upmc.ta.aladyn.tests.objects.Tata;
 import fr.upmc.ta.aladyn.tests.objects.Titi;
 
 /**
- * Classe de tests pour le BackupManager qui se charge de sauvegarder et
- * restaurer l'état d'un objet.
+ * Classe de tests pour le BackupManager qui se charge de sauvegarder et restaurer l'état d'un objet.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  * 
  */
 public final class BackupManagerTest {
-    
+
     /**
      * Test la méthode equals du backupManager
-     * @throws Exception 
+     * 
+     * @throws Exception
      */
     @Test
     public void backupManagerEqualsTest() throws Exception {
 	Tata tata = new Tata();
 	BackupManager bm1 = new BackupManager(tata);
-	
+
 	tata.x = 11;
 	BackupManager bm2 = new BackupManager(tata);
-	
+
 	assertTrue(bm1.equals(bm2));
-	
+
 	Tata tata2 = new Tata(tata);
 	BackupManager bm3 = new BackupManager(tata2);
-	
+
 	assertTrue(!bm2.equals(bm3));
     }
-    
+
     /**
      * Test que l'on ne peut pas sauvegarder un objet non transactionnable
-     * @throws Exception 
+     * 
+     * @throws Exception
      */
-    @Test(expected=BackupException.class)
+    @Test(expected = BackupException.class)
     public void saveNonTransactionnableObject() throws Exception {
 	new BackupManager(new Titi());
     }
-    
 
     /**
-     * Teste les points suivants sur les variables d'un objet transactionnel
-     * (lors d'une restauration) :
+     * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
      * <ul>
-     * <li>Si la valeur d'une variable primitive est changée, elle est rétablie.
-     * </li>
+     * <li>Si la valeur d'une variable primitive est changée, elle est rétablie.</li>
      * </ul>
      * 
      * @throws Exception
@@ -98,13 +96,10 @@ public final class BackupManagerTest {
     }
 
     /**
-     * Teste les points suivants sur les variables d'un objet transactionnel
-     * (lors d'une restauration) :
+     * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
      * <ul>
-     * <li>Si une référence vers un objet non transactionnable est changée, elle
-     * est rétablie ;</li>
-     * <li>Si la valeur d'un objet non transactionnable est changée, la valeur
-     * n'est pas rétabli.</li>
+     * <li>Si une référence vers un objet non transactionnable est changée, elle est rétablie ;</li>
+     * <li>Si la valeur d'un objet non transactionnable est changée, la valeur n'est pas rétabli.</li>
      * </ul>
      * 
      * @throws Exception
@@ -166,8 +161,7 @@ public final class BackupManagerTest {
 	assertTrue(mt.object_x.equals(0));
 
 	/*
-	 * la référence de object_titi est toujours la même, mais la valeur
-	 * reste changée car l'objet est non transactionnel
+	 * la référence de object_titi est toujours la même, mais la valeur reste changée car l'objet est non transactionnel
 	 */
 	assertTrue(mt.object_titi == titi);
 	assertTrue(!mt.object_titi.x.equals(0));
@@ -177,8 +171,7 @@ public final class BackupManagerTest {
     }
 
     /**
-     * Teste les points suivants sur les variables d'un objet transactionnel
-     * (lors d'une restauration) :
+     * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
      * <ul>
      * <li>Si la référence vers un tableau est changée, alors elle est rétablie</li>
      * </ul>
@@ -225,11 +218,9 @@ public final class BackupManagerTest {
     }
 
     /**
-     * Teste les points suivants sur les variables d'un objet transactionnel
-     * (lors d'une restauration) :
+     * Teste les points suivants sur les variables d'un objet transactionnel (lors d'une restauration) :
      * <ul>
-     * <li>Si les valeurs ou références d'une classe mère sont modifiés, alors
-     * elles sont rétablies</li>
+     * <li>Si les valeurs ou références d'une classe mère sont modifiés, alors elles sont rétablies</li>
      * </ul>
      * 
      * @throws Exception
