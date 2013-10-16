@@ -27,7 +27,7 @@ public class MethodeCouranteManagerTest {
 	assertTrue(true);
     }
 
-    @Test(expected=InjectionException.class)
+    @Test(expected = InjectionException.class)
     public void testStack3() throws InjectionException {
 	MethodeCouranteManager.instance.newTransactionnableMethod();
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
@@ -35,7 +35,7 @@ public class MethodeCouranteManagerTest {
     }
 
     public void test() {
-	
+
     }
-    
+
 }

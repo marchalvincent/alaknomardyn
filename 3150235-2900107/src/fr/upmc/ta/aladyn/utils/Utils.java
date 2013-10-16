@@ -3,11 +3,11 @@ package fr.upmc.ta.aladyn.utils;
 import fr.upmc.ta.aladyn.Transactionnable;
 
 /**
- * Cette classe rassemble quelques méthodes utilitaires de manière à simplifier la manipulation
- * des classes et méthodes transactionnables.
+ * Cette classe rassemble quelques méthodes utilitaires de manière à simplifier la manipulation des classes et méthodes
+ * transactionnables.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class Utils {
 

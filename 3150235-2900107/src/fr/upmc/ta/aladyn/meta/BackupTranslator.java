@@ -12,8 +12,7 @@ public class BackupTranslator implements Translator {
 
     private Loader loader;
 
-    public BackupTranslator (Loader loader)
-    {
+    public BackupTranslator(Loader loader) {
 	super();
 	this.loader = loader;
     }
@@ -24,23 +23,16 @@ public class BackupTranslator implements Translator {
     }
 
     @Override
-    public void onLoad(ClassPool pool, String classname) throws NotFoundException, CannotCompileException 
-    {
+    public void onLoad(ClassPool pool, String classname) throws NotFoundException, CannotCompileException {
 	CtClass ctClass = pool.get(classname);
 
 	// On regarde si la CtClass est transactionnable
-	try 
-	{
-	    if (ctClass.hasAnnotation(Transactionnable.class))
-	    {
+	try {
+	    if (ctClass.hasAnnotation(Transactionnable.class)) {
 		loader = new Loader();
-		loader.makeReflective( classname,
-			"fr.upmc.ta.aladyn.meta.TransMetaObj",
-			"javassist.tools.reflect.ClassMetaobject" );
+		loader.makeReflective(classname, "fr.upmc.ta.aladyn.meta.TransMetaObj", "javassist.tools.reflect.ClassMetaobject");
 	    }
-	} 
-	catch (Throwable e) 
-	{
+	} catch (Throwable e) {
 	    e.printStackTrace();
 	}
 

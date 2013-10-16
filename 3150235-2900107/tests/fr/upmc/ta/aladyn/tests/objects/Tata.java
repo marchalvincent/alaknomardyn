@@ -10,7 +10,7 @@ public class Tata {
     public Tata() {
 	this(0);
     }
-    
+
     public Tata(Tata t) {
 	this(t.x);
     }
