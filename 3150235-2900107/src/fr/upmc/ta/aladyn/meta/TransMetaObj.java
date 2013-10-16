@@ -32,7 +32,7 @@ public class TransMetaObj extends Metaobject {
      */
     public Object trapMethodcall(int identifier, Object[] args) throws Throwable {
 	// On vérifie que la méthode est une méthode de type SET
-	if (getMethodName(identifier).length() >= 3 && getMethodName(identifier).substring(0, 3).equals("set")) {
+	if (getMethodName(identifier).startsWith("set")) {
 	    System.out.println("** trap : " + getMethodName(identifier) + " () in " + getClassMetaobject().getName());
 	    /**
 	     * Appel de la sauvegarde
