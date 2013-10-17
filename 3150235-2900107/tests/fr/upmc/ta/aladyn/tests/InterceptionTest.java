@@ -2,31 +2,22 @@ package fr.upmc.ta.aladyn.tests;
 
 import fr.upmc.ta.aladyn.meta.BackupTranslator;
 import javassist.tools.reflect.Loader;
-import javassist.Translator;
+import javassist.ClassPool;
 
 
-public class InterceptionTest extends AbstractTest {
-    private Loader loader;
-    private BackupTranslator backupTranslator;
-    
-    public InterceptionTest() throws Exception
-    {
-	loader = new Loader();
-	backupTranslator = new BackupTranslator(loader);
+public class InterceptionTest {
+
+    public static void main(String[] args) {
+	try
+	{
+	    ClassPool pool = ClassPool.getDefault();
+	    Loader loader = new Loader();
+	    BackupTranslator backupTrans = new BackupTranslator(loader);
+	    loader.addTranslator(pool, backupTrans);
+
+	    loader.run("fr.upmc.ta.aladyn.tests.classMain.PersonTest", args);
+	}catch(Throwable e){
+	    System.err.println(e);
+	}
     }
-    @Override
-    public javassist.Loader getLoaderInjection() {
-	return null;
-    }
-
-    @Override
-    public Loader getLoaderInterception(){
-	    return loader;
-    }
-
-    @Override
-    public Translator getTranslator() {
-	return backupTranslator;
-    }
-
 }
