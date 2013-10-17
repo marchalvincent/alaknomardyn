@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.meta;
+package fr.upmc.ta.aladyn.interception;
 
 import fr.upmc.ta.aladyn.backup.BackupManager;
 import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;

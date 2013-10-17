@@ -72,8 +72,8 @@ public class InjectionTranslator implements Translator {
 		// on insère la sauvegarde de l'objet au début du setter
 		try {
 		    // MethodeCouranteManager.instance.addBackupToCurrentMethod(null);
-		    method.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new BackupManager(this);"
-			    + "fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
+		    method.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
+			    + "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
 
 		} catch (CannotCompileException e) {
 		    throw new InjectionException("CannotCompileException : " + e.getMessage());
@@ -102,7 +102,7 @@ public class InjectionTranslator implements Translator {
      */
     private void injectMethod(CtMethod method, ClassPool pool) throws CannotCompileException, NotFoundException {
 
-	final String restoreMethod = "fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.restoreBackupsOfLastMethod();";
+	final String restoreMethod = "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.restoreBackupsOfLastMethod();";
 
 	/*
 	 * 1. On ajoute le restore des objets dans les clauses catch déjà existantes
@@ -125,7 +125,7 @@ public class InjectionTranslator implements Translator {
 	 * 3. On injecte avant et après la méthode le push et le pop d'une {@link CtMethodExecuted} dans le singleton
 	 * {@link MethodeCouranteManager}.
 	 */
-	method.insertBefore("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.newTransactionnableMethod();");
-	method.insertAfter("fr.upmc.ta.aladyn.injection.MethodeCouranteManager.instance.endOfTransactionnableMethod();");
+	method.insertBefore("fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.newTransactionnableMethod();");
+	method.insertAfter("fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.endOfTransactionnableMethod();");
     }
 }

@@ -1,8 +1,8 @@
 package fr.upmc.ta.aladyn.tests;
 
-import fr.upmc.ta.aladyn.injection.BackupTranslator;
 import javassist.ClassPool;
 import javassist.Loader;
+import fr.upmc.ta.aladyn.injection.InjectionTranslator;
 
 public class InjectionTest {
 
@@ -11,13 +11,13 @@ public class InjectionTest {
 	{
 	    ClassPool pool = ClassPool.getDefault();
 	    Loader loader = new Loader(pool); 
-	    BackupTranslator backupTranslator = new BackupTranslator();
+	    InjectionTranslator backupTranslator = new InjectionTranslator();
 	    loader.addTranslator(pool, backupTranslator);
 
 	    loader.run("fr.upmc.ta.aladyn.tests.classMain.PersonTest", args);
 	    
 	}catch(Throwable e){
-	    System.err.println(e);
+	    e.printStackTrace();
 	}
     }
 }
