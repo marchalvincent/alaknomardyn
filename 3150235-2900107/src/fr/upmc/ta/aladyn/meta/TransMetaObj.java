@@ -1,7 +1,7 @@
 package fr.upmc.ta.aladyn.meta;
 
 import fr.upmc.ta.aladyn.backup.BackupManager;
-import fr.upmc.ta.aladyn.injection.MethodeCouranteManager;
+import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;
 import javassist.tools.reflect.*;
 
 public class TransMetaObj extends Metaobject {
