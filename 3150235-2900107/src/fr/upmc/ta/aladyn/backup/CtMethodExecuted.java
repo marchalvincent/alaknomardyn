@@ -1,9 +1,7 @@
-package fr.upmc.ta.aladyn.injection;
+package fr.upmc.ta.aladyn.backup;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.upmc.ta.aladyn.backup.BackupManager;
 
 /**
  * Représente une méthode qui est dans la stack des exécutions. Elle contient une liste d'objets à restaurer en cas de problème.
