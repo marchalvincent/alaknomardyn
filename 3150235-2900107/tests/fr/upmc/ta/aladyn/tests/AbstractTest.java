@@ -7,12 +7,12 @@ public abstract class AbstractTest {
 
     public abstract javassist.Loader getLoaderInjection();
 
-    public abstract javassist.tools.reflect.Loader getLoaderInterception();
+    public abstract javassist.tools.reflect.Loader getLoaderInterception() throws Exception;
 
     public abstract Translator getTranslator();
 
     public static void main(String[] args){
-
+	
 //	if(getLoaderInjection() == null)
 //	{
 //	    
