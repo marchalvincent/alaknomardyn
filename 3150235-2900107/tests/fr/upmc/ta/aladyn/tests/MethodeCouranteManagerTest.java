@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import fr.upmc.ta.aladyn.InjectionException;
-import fr.upmc.ta.aladyn.injection.MethodeCouranteManager;
+import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;
 
 public class MethodeCouranteManagerTest {
 

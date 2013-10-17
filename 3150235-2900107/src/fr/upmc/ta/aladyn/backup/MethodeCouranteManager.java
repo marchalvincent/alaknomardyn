@@ -1,9 +1,8 @@
-package fr.upmc.ta.aladyn.injection;
+package fr.upmc.ta.aladyn.backup;
 
 import java.util.Stack;
 
 import fr.upmc.ta.aladyn.InjectionException;
-import fr.upmc.ta.aladyn.backup.BackupManager;
 
 /**
  * Cette méthode se charge de garder en mémoire les méthodes transactionnables en cours à un instant t de l'éxecution d'un
