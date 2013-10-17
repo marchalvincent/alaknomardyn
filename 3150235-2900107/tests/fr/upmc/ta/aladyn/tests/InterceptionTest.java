@@ -1,6 +1,6 @@
 package fr.upmc.ta.aladyn.tests;
 
-import fr.upmc.ta.aladyn.meta.BackupTranslator;
+import fr.upmc.ta.aladyn.interception.BackupTranslator;
 import javassist.tools.reflect.Loader;
 import javassist.ClassPool;
 

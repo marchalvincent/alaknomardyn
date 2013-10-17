@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.meta;
+package fr.upmc.ta.aladyn.interception;
 
 import javassist.ClassPool;
 import javassist.tools.reflect.Loader;
