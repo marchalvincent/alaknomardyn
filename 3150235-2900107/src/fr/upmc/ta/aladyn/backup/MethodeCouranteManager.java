@@ -57,11 +57,9 @@ public class MethodeCouranteManager {
      * @throws InjectionException
      */
     public void addBackupToCurrentMethod(BackupManager backup) throws InjectionException {
-	if (stackMethods.isEmpty())
-	    throw new InjectionException(
-		    "The stack of transactionnables methods is empty. You must call the newTransactionnableMethod before to"
-			    + " add a backupManager.");
-	stackMethods.peek().addBackupManager(backup);
+	// si la stack des méthodes transactionnable n'est pas vide, il faut alors sauvegarder le backup
+	if (!stackMethods.isEmpty())
+	    stackMethods.peek().addBackupManager(backup);
     }
 
     /**
@@ -70,14 +68,15 @@ public class MethodeCouranteManager {
      * @return une List de {@link BackupManager}.
      */
     public void restoreBackupsOfLastMethod() {
-	// pour chaque backup, on lance le restore
-	for (BackupManager backupManager : stackMethods.peek().getBackupsList()) {
-	    try {
-		backupManager.restore();
-	    } catch (Exception e) {
-		e.printStackTrace();
+	if (!stackMethods.isEmpty()) {
+	    // pour chaque backup, on lance le restore
+	    for (BackupManager backupManager : stackMethods.peek().getBackupsList()) {
+		try {
+		    backupManager.restore();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 	    }
 	}
     }
-
 }

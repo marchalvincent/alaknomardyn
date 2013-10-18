@@ -8,6 +8,7 @@ import javassist.NotFoundException;
 import javassist.Translator;
 import javassist.expr.ExprEditor;
 import javassist.expr.Handler;
+import javassist.expr.MethodCall;
 import fr.upmc.ta.aladyn.InjectionException;
 import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.backup.CtMethodExecuted;
@@ -33,13 +34,13 @@ public class InjectionTranslator implements Translator {
 	if (ctClass.hasAnnotation(Transactionnable.class)) {
 	    // si oui, il faut injecter ses Setters afin d'enregistrer les états de ses instances
 	    try {
-		this.injectSetters(ctClass);
+		this.injectSetters(pool, ctClass);
 
 	    } catch (InjectionException e) {
 		e.printStackTrace();
 	    }
 	}
-	
+
 	/*
 	 * 2. Deuxième étape, on parcours chaque méthodes transactionnables afin de les enregistrer dans le singleton {@link
 	 * MethodeCouranteManager}. Ainsi, les backups créé dans les setters pourront se lier à ces méthodes transactionnables.
@@ -58,28 +59,32 @@ public class InjectionTranslator implements Translator {
     /**
      * Injecte du code en début de chaque Setter de la classe. Le code injecté va faire la sauvegarde des objets instance de cette
      * classe afin de les enregistrer dans le singleton {@link MethodeCouranteManager}.
-     * 
+     * @param pool 
+     * 		le ClassPool
      * @param ctClass
      *            la classe dont les setters doivent être injectés.
      * @throws InjectionException
      *             si le code injecté ne compile pas.
+     * @throws CannotCompileException 
      */
-    private void injectSetters(CtClass ctClass) throws InjectionException {
+    private void injectSetters(final ClassPool pool, final CtClass ctClass) throws InjectionException, CannotCompileException {
 
-	// on parcours tout les setters afin de faire un save
-	for (CtMethod method : ctClass.getMethods()) {
-	    if (method.getName().startsWith("set")) {
-		// on insère la sauvegarde de l'objet au début du setter
+	System.out.println("ctClass name : " + ctClass.getName());
+	ctClass.instrument(new ExprEditor() {
+	    // on redéfinit les appels de méthodes
+	    public void edit(MethodCall mc) throws CannotCompileException {
 		try {
-		    // MethodeCouranteManager.instance.addBackupToCurrentMethod(null);
-		    method.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
-			    + "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
-
-		} catch (CannotCompileException e) {
-		    throw new InjectionException("CannotCompileException : " + e.getMessage());
+		    // seulement les méthode commencant par "set"
+		    CtMethod methodCalled = mc.getMethod();
+		    if (methodCalled.getName().startsWith("set")) {
+			methodCalled.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
+				+ "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
+		    }
+		} catch (NotFoundException e) {
+		    e.printStackTrace();
 		}
 	    }
-	}
+	});
     }
 
     /**

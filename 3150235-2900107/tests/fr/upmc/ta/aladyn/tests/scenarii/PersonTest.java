@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests.classMain;
+package fr.upmc.ta.aladyn.tests.scenarii;
 
 import fr.upmc.ta.aladyn.tests.objects.Person;
 

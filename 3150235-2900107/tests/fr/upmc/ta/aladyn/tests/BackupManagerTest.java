@@ -8,11 +8,11 @@ import fr.upmc.ta.aladyn.BackupException;
 import fr.upmc.ta.aladyn.MethodException;
 import fr.upmc.ta.aladyn.backup.BackupManager;
 import fr.upmc.ta.aladyn.tests.objects.MyTransactionnable;
-import fr.upmc.ta.aladyn.tests.objects.Tata;
-import fr.upmc.ta.aladyn.tests.objects.Titi;
+import fr.upmc.ta.aladyn.tests.objects.TransactionnableClass;
+import fr.upmc.ta.aladyn.tests.objects.NonTransactionnableClass;
 
 /**
- * Classe de tests pour le BackupManager qui se charge de sauvegarder et restaurer l'état d'un objet.
+ * Classe de tests pour le {@link BackupManager} qui se charge de sauvegarder et restaurer l'état d'un objet.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  * 
@@ -26,7 +26,7 @@ public final class BackupManagerTest {
      */
     @Test
     public void backupManagerEqualsTest() throws Exception {
-	Tata tata = new Tata();
+	TransactionnableClass tata = new TransactionnableClass();
 	BackupManager bm1 = new BackupManager(tata);
 
 	tata.x = 11;
@@ -34,7 +34,7 @@ public final class BackupManagerTest {
 
 	assertTrue(bm1.equals(bm2));
 
-	Tata tata2 = new Tata(tata);
+	TransactionnableClass tata2 = new TransactionnableClass(tata);
 	BackupManager bm3 = new BackupManager(tata2);
 
 	assertTrue(!bm2.equals(bm3));
@@ -47,7 +47,7 @@ public final class BackupManagerTest {
      */
     @Test(expected = BackupException.class)
     public void saveNonTransactionnableObject() throws Exception {
-	new BackupManager(new Titi());
+	new BackupManager(new NonTransactionnableClass());
     }
 
     /**
@@ -110,9 +110,9 @@ public final class BackupManagerTest {
 	MyTransactionnable mt = new MyTransactionnable();
 
 	// on enregistre les références
-	Titi titi = mt.object_titi;
+	NonTransactionnableClass titi = mt.object_titi;
 	Integer integer = mt.object_x;
-	Tata tata = mt.transactionnable_tata;
+	TransactionnableClass tata = mt.transactionnable_tata;
 
 	assertTrue(mt.object_x == integer);
 	assertTrue(mt.object_x.equals(0));
@@ -231,7 +231,7 @@ public final class BackupManagerTest {
 	MyTransactionnable mt = new MyTransactionnable();
 
 	int x = mt.x;
-	Tata tata = mt.getTata();
+	TransactionnableClass tata = mt.getTata();
 	Double myDouble = mt.getDouble();
 	Double mySuperDouble = mt.getSuperDouble();
 

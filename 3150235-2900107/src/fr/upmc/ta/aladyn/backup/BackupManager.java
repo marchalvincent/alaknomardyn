@@ -6,15 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.upmc.ta.aladyn.BackupException;
-import fr.upmc.ta.aladyn.utils.Utils;
+import fr.upmc.ta.aladyn.Transactionnable;
 
 /**
  * Cette classe permet d'enregistrer l'état d'un objet puis de le restorer.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  * 
- * @param <T>
- *            le type de la classe à enregistrer.
  */
 public class BackupManager {
 
@@ -45,9 +43,9 @@ public class BackupManager {
      */
     public void save(Object objectToSave) throws Exception {
 
-	// petite vérification
-	if (!Utils.isClassTransactionnable(objectToSave.getClass())) {
-	    throw new BackupException("BackupManager : The object to save is not transactionnable.");
+	// petite vérification, si l'objet n'est pas transactionnable
+	if (objectToSave.getClass().getAnnotation(Transactionnable.class) == null) {
+	    throw new BackupException("BackupManager : The object to save is not transactionnable : " + objectToSave.getClass().getSimpleName() + ".");
 	}
 
 	objectToRestore = objectToSave;
@@ -59,13 +57,14 @@ public class BackupManager {
 	    Field[] fields = clazz.getDeclaredFields();
 	    // parcours de tous les attributs de l'objet afin de récupérer les valeurs des attributs et les sauvegarder
 	    for (Field field : fields) {
+		boolean isAccessible = field.isAccessible();
 		field.setAccessible(true);
 
 		// on ne peut pas "set" une variable final, il ne sert a rien de l'avoir en mémoire
 		if (!Modifier.isFinal(field.getModifiers()))
 		    savedFields.put(field, field.get(objectToSave));
 
-		field.setAccessible(false);
+		field.setAccessible(isAccessible);
 	    }
 	    clazz = clazz.getSuperclass();
 	}
@@ -89,6 +88,7 @@ public class BackupManager {
 	    Field[] fields = clazz.getDeclaredFields();
 	    // parcours de tous les attributs de backup pour récupérer les valeurs et les restaurer dans l'objet
 	    for (Field field : fields) {
+		boolean isAccessible = field.isAccessible();
 		field.setAccessible(true);
 
 		// on ne peut pas "set" une variable final
@@ -99,7 +99,7 @@ public class BackupManager {
 
 		    field.set(objectToRestore, savedFields.get(field));
 		}
-		field.setAccessible(false);
+		field.setAccessible(isAccessible);
 	    }
 	    clazz = clazz.getSuperclass();
 	}

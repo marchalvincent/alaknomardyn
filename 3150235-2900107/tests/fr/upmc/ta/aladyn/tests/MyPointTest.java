@@ -1,11 +1,22 @@
-package fr.upmc.ta.aladyn.testAsupprimer;
+package fr.upmc.ta.aladyn.tests;
 
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+
 import fr.upmc.ta.aladyn.BackupException;
 import fr.upmc.ta.aladyn.MethodException;
+import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.backup.BackupManager;
+import fr.upmc.ta.aladyn.tests.objects.MyPoint;
 
+/**
+ * Cette petite classe permet de tester le {@link BackupManager} sur un objet {@link Transactionnable} contenant un objet Double
+ * et un tableau d'int.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ *
+ */
 public class MyPointTest {
 
     @Test
@@ -26,7 +37,7 @@ public class MyPointTest {
 	    assertTrue(point.getY() != 5);
 	    assertTrue(point.getTab0() != 3);
 	    assertTrue(point.getTab1() != 4);
-	    // en cas d'erreur, on print le message
+	    // on print l'erreur
 	    System.err.print(e.getMessage());
 	    // et on tente le restore
 	    try {

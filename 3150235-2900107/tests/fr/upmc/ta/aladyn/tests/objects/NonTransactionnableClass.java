@@ -1,14 +1,20 @@
 package fr.upmc.ta.aladyn.tests.objects;
 
-public class Titi {
+/**
+ * Une classe permettant de tester que les sauvegardes ne sont pas appliquées sur les objets non transactionnables.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ *
+ */
+public class NonTransactionnableClass {
 
     public Integer x;
 
-    public Titi() {
+    public NonTransactionnableClass() {
 	this(0);
     }
 
-    public Titi(int a) {
+    public NonTransactionnableClass(int a) {
 	super();
 	x = new Integer(a);
     }
@@ -29,7 +35,7 @@ public class Titi {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	Titi other = (Titi) obj;
+	NonTransactionnableClass other = (NonTransactionnableClass) obj;
 	if (x == null) {
 	    if (other.x != null)
 		return false;

@@ -8,11 +8,11 @@ import javassist.Translator;
 import javassist.tools.reflect.Loader;
 import fr.upmc.ta.aladyn.Transactionnable;
 
-public class BackupTranslator implements Translator {
+public class InterceptionTranslator implements Translator {
 
     private Loader loader;
 
-    public BackupTranslator(Loader loader) {
+    public InterceptionTranslator(Loader loader) {
 	super();
 	this.loader = loader;
     }
