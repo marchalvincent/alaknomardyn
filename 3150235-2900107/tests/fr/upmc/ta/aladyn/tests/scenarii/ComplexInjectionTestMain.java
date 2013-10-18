@@ -23,7 +23,11 @@ public class ComplexInjectionTestMain {
 	michel.transfertTransactionnableWithSurety(vincent, 50);
 	if (vincent.getSolde() != 0 || michel.getSolde() != 100)
 		throw new CompteBancaireException();
-	
+	try {
+	    michel.imbricatedTransfertTransactionnable(vincent, 50);
+	} catch (CompteBancaireException e) {
+	    if (vincent.getSolde() != 0 || michel.getSolde() != 100)
+		throw new CompteBancaireException();
+	}
     }
-
 }

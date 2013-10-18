@@ -52,14 +52,20 @@ public class MethodeCouranteManager {
     /**
      * Ajoute un backup d'objet dans la liste de la méthode transactionnable courrante (celle qui est au dessus de la stack).
      * 
+     * Il faut également renvoyer ce backup dans les autres méthodes transactionnable de la pile, car si un problème intervient
+     * dans celles-ci, les modifications apportée dans la méthode courrante (celle du haut de la pile) doivent être défaites.
+     * 
      * @param backup
      *            le backup de l'objet enregistré
      * @throws InjectionException
      */
     public void addBackupToCurrentMethod(BackupManager backup) throws InjectionException {
 	// si la stack des méthodes transactionnable n'est pas vide, il faut alors sauvegarder le backup
-	if (!stackMethods.isEmpty())
-	    stackMethods.peek().addBackupManager(backup);
+	if (!stackMethods.isEmpty()) {
+	    for (CtMethodExecuted method : stackMethods) {
+		method.addBackupManager(backup);
+	    }
+	}
     }
 
     /**
