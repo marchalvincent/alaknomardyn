@@ -9,7 +9,7 @@ public class TesterMeta {
 	try {
 	    ClassPool pool = ClassPool.getDefault();
 	    Loader loader = new Loader();
-	    BackupTranslator backupTrans = new BackupTranslator(loader);
+	    InterceptionTranslator backupTrans = new InterceptionTranslator(loader);
 	    loader.addTranslator(pool, backupTrans);
 	    loader.run("fr.upmc.ta.aladyn.tests.objects.Person", args);
 	} catch (Throwable ex) {

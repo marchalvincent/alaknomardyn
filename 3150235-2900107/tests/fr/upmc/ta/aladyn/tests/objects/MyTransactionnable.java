@@ -13,11 +13,11 @@ import fr.upmc.ta.aladyn.Transactionnable;
 public class MyTransactionnable extends MyMother {
 
     // transactionnable
-    public Tata transactionnable_tata;
+    public TransactionnableClass transactionnable_tata;
 
     // non transactionnable
     public Integer object_x;
-    public Titi object_titi;
+    public NonTransactionnableClass object_titi;
 
     // primitifs
     public int primitif_y;
@@ -29,10 +29,10 @@ public class MyTransactionnable extends MyMother {
     public MyTransactionnable() {
 	super();
 
-	transactionnable_tata = new Tata();
+	transactionnable_tata = new TransactionnableClass();
 
 	object_x = new Integer(0);
-	object_titi = new Titi();
+	object_titi = new NonTransactionnableClass();
 
 	primitif_y = 0;
 	primitif_b = true;
@@ -53,7 +53,7 @@ public class MyTransactionnable extends MyMother {
     public void modifyObjects() {
 	object_x = new Integer(2);
 	object_titi.x++;
-	transactionnable_tata = new Tata(2);
+	transactionnable_tata = new TransactionnableClass(2);
     }
 
     public void modifyTable() {

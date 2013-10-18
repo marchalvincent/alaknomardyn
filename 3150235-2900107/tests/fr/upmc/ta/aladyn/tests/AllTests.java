@@ -5,6 +5,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ BackupManagerTest.class, UtilsTests.class, MethodeCouranteManagerTest.class })
-public class AllTests {
-}
+@SuiteClasses({ BackupManagerTest.class, MethodeCouranteManagerTest.class, MyPointTest.class, ScenariiTests.class })
+public class AllTests {}

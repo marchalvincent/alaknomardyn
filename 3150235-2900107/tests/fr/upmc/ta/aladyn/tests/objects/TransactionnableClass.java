@@ -2,20 +2,26 @@ package fr.upmc.ta.aladyn.tests.objects;
 
 import fr.upmc.ta.aladyn.Transactionnable;
 
+/**
+ * Une classe transactionnable contenant un champ de type primitif.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ *
+ */
 @Transactionnable
-public class Tata {
+public class TransactionnableClass {
 
     public int x;
 
-    public Tata() {
+    public TransactionnableClass() {
 	this(0);
     }
 
-    public Tata(Tata t) {
+    public TransactionnableClass(TransactionnableClass t) {
 	this(t.x);
     }
 
-    public Tata(int i) {
+    public TransactionnableClass(int i) {
 	super();
 	x = i;
     }
@@ -36,7 +42,7 @@ public class Tata {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	Tata other = (Tata) obj;
+	TransactionnableClass other = (TransactionnableClass) obj;
 	if (x != other.x)
 	    return false;
 	return true;
