@@ -47,15 +47,4 @@ public class ScenariiTests {
 	    assertTrue(false);
 	}
     }
-    
-    @Test
-    public void injectionTest4() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.MainTest"};
-	try {
-	    InjectionMain.main(args);
-	} catch (Throwable e) {
-	    // si une exception est sortie du main, ce n'est pas normal
-	    assertTrue(false);
-	}
-    }
 }

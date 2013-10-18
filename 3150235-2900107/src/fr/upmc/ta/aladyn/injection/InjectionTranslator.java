@@ -69,7 +69,6 @@ public class InjectionTranslator implements Translator {
      */
     private void injectSetters(final ClassPool pool, final CtClass ctClass) throws InjectionException, CannotCompileException {
 
-	System.out.println("ctClass name : " + ctClass.getName());
 	ctClass.instrument(new ExprEditor() {
 	    // on redéfinit les appels de méthodes
 	    public void edit(MethodCall mc) throws CannotCompileException {

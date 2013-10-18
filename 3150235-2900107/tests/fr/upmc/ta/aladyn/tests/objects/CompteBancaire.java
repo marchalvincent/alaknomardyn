@@ -47,8 +47,7 @@ public class CompteBancaire {
     }
     
     /**
-     * Un transfert d'argent entre compte non sécurisé (non transactionnable) qui n'a pas lieu pour une raison d'exception levée.
-     * Du coup les montant des comptes ne sont plus valable à la fin de la méthode.
+     * Transfert qui rate et qui fausse les données.
      * @param compteASolder
      * @param montant
      * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
@@ -61,7 +60,7 @@ public class CompteBancaire {
     }
 
     /**
-     * Un transfert d'argent entre compte sécurisé (transactionnable) qui n'a pas lieu pour une raison d'exception levée.
+     * Transfert qui rate mais garde les données cohérentes.
      * @param compteASolder
      * @param montant
      * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
@@ -75,7 +74,7 @@ public class CompteBancaire {
     }
 
     /**
-     * Un transfert d'argent entre compte sécurisé (transactionnable).
+     * Transfert d'argent qui rate, qui retente sa chance et réussi mais les données sont fausses.
      * @param compteASolder
      * @param montant
      * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
@@ -98,7 +97,7 @@ public class CompteBancaire {
     }
 
     /**
-     * Un transfert d'argent entre compte sécurisé (transactionnable).
+     * Transfert d'argent qui rate, qui retente sa chance et réussi et garde les données cohérentes.
      * @param compteASolder
      * @param montant
      * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
@@ -119,15 +118,13 @@ public class CompteBancaire {
     }
     
     /**
-     * Imaginons un transfert d'argent entre compte qui aurait besoin d'une caution avant d'effectuer le transfert. La banque risque de perdre
-     * quelques clients... ce scénario est inventé pour tester le cas de plusieurs transactions imbriquées.
+     * Transaction (m1) qui en appelle une autre (m2). m2 échoue mais est correctement rétablie puis m1 se fini normalement.
      * @param compteASolder
      * @param montant
      * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
      */
     @Transactionnable
     public void transfertTransactionnableWithSurety(CompteBancaire compteASolder, double montant) throws CompteBancaireException {
-	
 	
 	// la caution de 10 euros
 	this.debiter(10);
@@ -138,7 +135,7 @@ public class CompteBancaire {
 	try {
 	    this.wrongTransfertTransactionnable(compteASolder, montant);
 	} catch (CompteBancaireException e) {
-	    // le transfert a raté ! les montant sont désormais rétablis
+	    // le transfert a raté ! les montant sont normalement rétablis car la méthode appelée est Transactionnable
 	    if (this.getSolde() != (thisSoldeAfterSurety) || compteASolder.getSolde() != compteSolde) {
 		throw e;
 	    }
@@ -146,5 +143,24 @@ public class CompteBancaire {
 	
 	// on rétablit quand même la caution sinon on va avoir encore moins de client
 	this.crediter(10);
+    }
+    
+    /**
+     * Transaction (m1) qui en appelle une autre (m2). m2 réussit mais m1 échoue et est rétablie.
+     * 
+     * @param compteASolder
+     * @param montant
+     * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
+     */
+    @Transactionnable
+    public void imbricatedTransfertTransactionnable(CompteBancaire compteASolder, double montant) throws CompteBancaireException {
+	
+	this.debiter(montant);
+	
+	// le vrai transfert qui réussit (la méthode imbriquée)
+	this.transfertTransactionnableWithInternalException(compteASolder, montant);
+
+	// puis un morceau de code qui lève une exception, seul le débit fait dans la méthode actuelle doit être rétablie
+	throw new CompteBancaireException();
     }
 }
