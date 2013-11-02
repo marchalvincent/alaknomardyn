@@ -11,22 +11,35 @@ public class TransMetaObj extends Metaobject {
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Méthode non surchargé
+     * @param self
+     * @param args
+     */
     public TransMetaObj(Object self, Object[] args) {
 	super(self, args);
-	// System.out.println("** constructed : " + self.getClass( ).getName());
     }
 
+    /**
+     * Méthode non surchargé
+     * @param self
+     * @param args
+     */
     public Object trapFieldRead(String name) {
-	// System.out.println( "** fieldread : " + name) ;
 	return super.trapFieldRead(name);
     }
 
+    /**
+     * Méthode non surchargé
+     * @param self
+     * @param args
+     */
     public void trapFieldWrite(String name, Object value) {
-	// System.out.println( "** fieldwrite : " + name) ;
 	super.trapFieldWrite(name, value);
     }
 
     /**
+     * Méthode surchargé
      * Permet d'intercepter les appels des méthodes débutant par "set". Avant la réalisation de la méthode nous réalisons une
      * sauvegarde les objets passé en parametre via les {@link BackupManager} dans la pile présente dans la class
      * {@link MethodeCouranteManager}. Dans le cas d'une exception nous restaurons les variables sauvegardées.
@@ -54,6 +67,7 @@ public class TransMetaObj extends Metaobject {
 		MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
 		throw e;
 	    }
+	    // Dépilement de la méthode
 	    MethodeCouranteManager.instance.endOfTransactionnableMethod();
 	    return result;
 	} else {
