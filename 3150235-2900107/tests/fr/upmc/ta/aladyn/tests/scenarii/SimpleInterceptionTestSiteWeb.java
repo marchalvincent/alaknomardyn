@@ -51,7 +51,6 @@ public class SimpleInterceptionTestSiteWeb {
 		throw new SiteAchatException();
 	}
 	
-	
 	try {
 	    amazon.setStockFail();
 	} catch (SiteAchatException e) {
@@ -63,7 +62,6 @@ public class SimpleInterceptionTestSiteWeb {
 	amazon.setStock();
 	if (amazon.getNbArticle() != 0)
 		throw new SiteAchatException();
-	
 
     }
 }
