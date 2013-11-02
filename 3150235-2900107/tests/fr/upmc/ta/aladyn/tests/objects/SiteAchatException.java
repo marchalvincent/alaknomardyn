@@ -1,7 +1,7 @@
 package fr.upmc.ta.aladyn.tests.objects;
 
 /**
- * Une exception utilisée pour les tests sur l'objet {@link siteAchat}.
+ * Une exception utilisée pour les tests sur l'objet {@link SiteAchat}.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  *
