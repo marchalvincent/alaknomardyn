@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import fr.upmc.ta.aladyn.InjectionException;
+import fr.upmc.ta.aladyn.BackupException;
 import fr.upmc.ta.aladyn.backup.BackupManager;
 import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;
 import fr.upmc.ta.aladyn.tests.objects.TransactionnableClass;
@@ -19,7 +19,7 @@ import fr.upmc.ta.aladyn.tests.objects.TransactionnableClass;
 public class MethodeCouranteManagerTest {
 
     @Test
-    public void testStack() throws InjectionException {
+    public void testStack() throws BackupException {
 	MethodeCouranteManager.instance.newTransactionnableMethod();
 	MethodeCouranteManager.instance.newTransactionnableMethod();
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
@@ -27,23 +27,18 @@ public class MethodeCouranteManagerTest {
 	assertTrue(true);
     }
 
-    @Test(expected = InjectionException.class)
-    public void testStack3() throws InjectionException {
+    @Test(expected = BackupException.class)
+    public void testStack3() throws BackupException {
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
     }
     
-    @Test
-    public void addBackupToEmptyStack() throws InjectionException, Exception {
+    @Test(expected = BackupException.class)
+    public void addBackupToEmptyStack() throws Exception {
 	TransactionnableClass tata = new TransactionnableClass(10);
 	BackupManager backup = new BackupManager(tata);
 	
-	// comme la stack est vide, le backup n'est pas gardé
+	// comme la stack est vide, un exception est lancée
 	MethodeCouranteManager.instance.addBackupToCurrentMethod(backup);
-	tata.x = 11;
-	
-	// le restore ne doit rien restore
-	MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
-	assertTrue(tata.x == 11);
     }
 
     /**
@@ -93,5 +88,8 @@ public class MethodeCouranteManagerTest {
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
     }
     
-
+    @Test
+    public void testMultithreads() throws Exception {
+	// TODO
+    }
 }

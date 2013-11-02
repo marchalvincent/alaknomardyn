@@ -1,8 +1,10 @@
 package fr.upmc.ta.aladyn.backup;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
-import fr.upmc.ta.aladyn.InjectionException;
+import fr.upmc.ta.aladyn.BackupException;
 
 /**
  * Cette méthode se charge de garder en mémoire les méthodes transactionnables en cours à un instant t de l'éxecution d'un
@@ -18,71 +20,103 @@ public class MethodeCouranteManager {
 
     private MethodeCouranteManager() {
 	super();
-	stackMethods = new Stack<>();
+	stackMethodsOfThreads = new HashMap<Long, Stack<CtMethodExecuted>>();
     }
 
     /**
-     * Cette LIFO représente la pile des méthodes transactionnables exécutées.
+     * Cette Map associe une LIFO (représentant la pile des méthodes transactionnables exécutées) à chaque thread.
      */
-    Stack<CtMethodExecuted> stackMethods;
+    Map<Long, Stack<CtMethodExecuted>> stackMethodsOfThreads;
 
     /**
-     * Créé une nouvelle {@link CtMethodExecuted} et la push dans la Stack des méthodes en cours. Cette méthode est à appeler en
+     * Créé une nouvelle {@link CtMethodExecuted} et la push dans la Stack des méthodes du thread en cours. Cette méthode est à appeler en
      * début de méthode transactionnable.
      */
     public void newTransactionnableMethod() {
-	stackMethods.push(new CtMethodExecuted());
+	Long threadId = Thread.currentThread().getId();
+
+	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(threadId);
+	if (stack == null)
+	    stackMethodsOfThreads.put(threadId, new Stack<CtMethodExecuted>());
+
+	stackMethodsOfThreads.get(threadId).push(new CtMethodExecuted());
     }
 
     /**
-     * Dépile la stack des méthodes en cours. Cette méthode est à appeler en fin de méthode transactionnable.
+     * Dépile la stack des méthodes du thread en cours. Cette méthode est à appeler en fin de méthode transactionnable.
      * 
-     * @throws InjectionException
+     * @throws BackupException
      *             Cette exception est levée si aucune méthode transactionnable n'est enregistrée.
      */
-    public void endOfTransactionnableMethod() throws InjectionException {
-	if (stackMethods.isEmpty())
-	    throw new InjectionException(
-		    "The stack of transactionnables methods is empty. You must call the newTransactionnableMethod before to"
-			    + " pop the stack.");
-	CtMethodExecuted ctMethodExecuted = stackMethods.pop();
+    public void endOfTransactionnableMethod() throws BackupException {
+	this.checkEmpty();
+	
+	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
+	if (stack == null || stack.isEmpty())
+	    throw new BackupException(
+		    "The stack of transactionnables methods is empty for this thread. You must call the newTransactionnableMethod before to pop the stack.");
+
+	CtMethodExecuted ctMethodExecuted = stack.pop();
 	ctMethodExecuted.getBackupsList().clear();
     }
 
     /**
-     * Ajoute un backup d'objet dans la liste de la méthode transactionnable courrante (celle qui est au dessus de la stack).
+     * Ajoute un backup d'objet dans la liste de la méthode transactionnable courrante (celle qui est au dessus de la stack) pour le thread en cours.
      * 
-     * Il faut également renvoyer ce backup dans les autres méthodes transactionnable de la pile, car si un problème intervient
+     * Il faut également renvoyer ce backup dans les autres méthodes transactionnable de la pile du thread, car si un problème intervient
      * dans celles-ci, les modifications apportée dans la méthode courrante (celle du haut de la pile) doivent être défaites.
      * 
      * @param backup
      *            le backup de l'objet enregistré
-     * @throws InjectionException
+     * @throws BackupException
      */
-    public void addBackupToCurrentMethod(BackupManager backup) throws InjectionException {
+    public void addBackupToCurrentMethod(BackupManager backup) throws BackupException {
+	this.checkEmpty();
+
+	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
+	if (stack == null || stack.isEmpty())
+	    throw new BackupException("The stack of transactionnables methods is not created or empty for this thread. "
+		    + "You must call the newTransactionnableMethod before to add a backupManager.");
+
 	// si la stack des méthodes transactionnable n'est pas vide, il faut alors sauvegarder le backup
-	if (!stackMethods.isEmpty()) {
-	    for (CtMethodExecuted method : stackMethods) {
-		method.addBackupManager(backup);
+	for (CtMethodExecuted method : stack) {
+	    method.addBackupManager(backup);
+	}
+    }
+
+    /**
+     * Fait appel à la méthode restore de l'ensemble des backupManager de la méthode transactionnable courrante pour le thread en cours.
+     * 
+     * @return une List de {@link BackupManager}.
+     */
+    public void restoreBackupsOfLastMethod() {
+	try {
+	    this.checkEmpty();
+	} catch (BackupException e1) {
+	    // si la Map est vide, on return simplement
+	    return;
+	}
+
+	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
+	if (stack == null || stack.isEmpty())
+	    return;
+	
+	// pour chaque backup, on lance le restore
+	for (BackupManager backupManager : stack.peek().getBackupsList()) {
+	    try {
+		backupManager.restore();
+	    } catch (Exception e) {
+		e.printStackTrace();
 	    }
 	}
     }
 
     /**
-     * Fait appel à la méthode restore de l'ensemble des backupManager de la méthode transactionnable courrante.
-     * 
-     * @return une List de {@link BackupManager}.
+     * Vérifie que la map n'est pas vide et bien initialisée.
+     * @throws BackupException
      */
-    public void restoreBackupsOfLastMethod() {
-	if (!stackMethods.isEmpty()) {
-	    // pour chaque backup, on lance le restore
-	    for (BackupManager backupManager : stackMethods.peek().getBackupsList()) {
-		try {
-		    backupManager.restore();
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	}
+    private void checkEmpty() throws BackupException {
+	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
+	    throw new BackupException("The Map of transactionnables methods is empty. You must call the newTransactionnableMethod.");
     }
 }
