@@ -1,5 +1,6 @@
 package fr.upmc.ta.aladyn.tests.scenarii;
 
+import fr.upmc.ta.aladyn.tests.objects.CompteBancaireTestThreaded;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatThreaded;
 
@@ -12,23 +13,28 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatThreaded;
  * 
  */
 
-public class SimpleInterceptionTestSiteWebThreaded {
+public class SimpleInterceptionTestThread {
 
     public static void main(String[] args) throws SiteAchatException {
 
 	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
-	Thread t1 = new SiteAchatThreaded();
-	Thread t2 = new SiteAchatThreaded();
+	SiteAchatThreaded t1 = new SiteAchatThreaded();
+	CompteBancaireTestThreaded t2 = new CompteBancaireTestThreaded();
 	t1.start();
 	t2.start();
 	
 	try {
-	    Thread.sleep(2000);
-	} catch (InterruptedException e) {
-	    e.printStackTrace();
+	    t1.join();
+	} catch (InterruptedException e1) {
+	    e1.printStackTrace();
+	}
+	try {
+	    t2.join();
+	} catch (InterruptedException e1) {
+	    e1.printStackTrace();
 	}
 	
-	if (t1.isInterrupted() || t2.isInterrupted())
+	if (t1.hasFailed() || t2.hasFailed())
 	    throw new SiteAchatException();
     }
 

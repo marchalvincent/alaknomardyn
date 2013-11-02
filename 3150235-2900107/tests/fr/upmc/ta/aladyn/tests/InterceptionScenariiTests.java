@@ -33,7 +33,7 @@ public class InterceptionScenariiTests {
     
     @Test
     public void inteceptionTestSiteWebThreaded() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInterceptionTestSiteWebThreaded"};
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInterceptionTestThread"};
 	try {
 	    InterceptionMain.main(args);
 	} catch (Throwable e) {

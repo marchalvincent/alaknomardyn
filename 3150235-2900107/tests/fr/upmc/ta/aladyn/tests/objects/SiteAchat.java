@@ -119,7 +119,8 @@ public class SiteAchat {
      * @param achat à ajouter au panier
      * @throws SiteAchatException
      */
-    public void setAchatTransactionnable(String achat) throws SiteAchatException {
+    @Transactionnable
+    public void AchatTransactionnable(String achat) throws SiteAchatException {
 	setAchat("un gros chien blanc");
 	throw new SiteAchatException();
 	// ici l'achat d'un mauvais article est survenu, le panier n'a pas ajouté le mauvais article !
@@ -165,7 +166,8 @@ public class SiteAchat {
      * Permet d'effctuer une commande et donc retirer les articles des stocks du site internet
      * Cette méthode lance un exception dans l'appel de la suppression du panier
      */
-    public void setStockFail()throws SiteAchatException{
+    @Transactionnable
+    public void stockFail()throws SiteAchatException{
 	//On vide les stocks commandés
 	for (String achat : panier) {
 	    setRetirerAchatStock(achat);
