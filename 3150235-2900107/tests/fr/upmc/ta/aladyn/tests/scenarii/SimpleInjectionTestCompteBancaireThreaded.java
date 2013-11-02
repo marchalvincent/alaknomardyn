@@ -1,14 +1,13 @@
 package fr.upmc.ta.aladyn.tests.scenarii;
 
-import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
-import fr.upmc.ta.aladyn.tests.objects.SiteAchatThreaded;
+import fr.upmc.ta.aladyn.tests.objects.CompteBancaireException;
 
 public class SimpleInjectionTestCompteBancaireThreaded {
 
-    public static void main(String[] args) throws SiteAchatException {
+    public static void main(String[] args) throws CompteBancaireException {
 
-	Thread t1 = new CompteBancaireTestThreaded();
-	Thread t2 = new CompteBancaireTestThreaded();
+	CompteBancaireTestThreaded t1 = new CompteBancaireTestThreaded();
+	CompteBancaireTestThreaded t2 = new CompteBancaireTestThreaded();
 	t1.start();
 	t2.start();
 	
@@ -23,7 +22,8 @@ public class SimpleInjectionTestCompteBancaireThreaded {
 	    e1.printStackTrace();
 	}
 	
-	if (t1.isInterrupted() || t2.isInterrupted())
-	    throw new SiteAchatException();
+	if (t1.hasFail() || t2.hasFail()) {
+	    throw new CompteBancaireException();
+	}
     }
 }
