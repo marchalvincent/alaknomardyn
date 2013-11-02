@@ -2,6 +2,13 @@ package fr.upmc.ta.aladyn.tests.scenarii;
 
 import fr.upmc.ta.aladyn.tests.objects.Person;
 
+/**
+ * Cette classe teste l'interception de code avec l'exemple site d'achat en ligne.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ * 
+ */
+
 public class PersonTest {
 
     public static void main(String[] args) throws Exception {
