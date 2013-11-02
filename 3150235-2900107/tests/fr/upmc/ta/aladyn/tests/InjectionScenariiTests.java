@@ -50,7 +50,7 @@ public class InjectionScenariiTests {
 
     @Test
     public void inteceptionTestSiteWeb() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestWebSite"};
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestSiteWeb"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
