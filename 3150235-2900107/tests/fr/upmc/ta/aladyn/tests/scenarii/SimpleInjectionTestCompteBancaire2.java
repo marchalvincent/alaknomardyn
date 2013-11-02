@@ -9,7 +9,7 @@ import fr.upmc.ta.aladyn.tests.objects.CompteBancaireException;
  * @author Michel Knoertzer & Vincent Marchal
  *
  */
-public class SimpleInjectionTestMain2 {
+public class SimpleInjectionTestCompteBancaire2 {
 
     public static void main(String[] args) throws Exception {
 	

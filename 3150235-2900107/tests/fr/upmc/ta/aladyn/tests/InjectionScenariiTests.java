@@ -16,8 +16,8 @@ import fr.upmc.ta.aladyn.InjectionMain;
 public class InjectionScenariiTests {
 
     @Test
-    public void injectionTest() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestMain"};
+    public void injectionTestCompteBancaire() {
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaire"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -27,8 +27,8 @@ public class InjectionScenariiTests {
     }
     
     @Test
-    public void injectionTest2() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestMain2"};
+    public void injectionTestCompteBancaire2() {
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaire2"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -38,8 +38,8 @@ public class InjectionScenariiTests {
     }
     
     @Test
-    public void injectionTest3() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestMain"};
+    public void injectionTestCompteBancaire3() {
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaire3"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -49,7 +49,7 @@ public class InjectionScenariiTests {
     }
 
     @Test
-    public void inteceptionTestSiteWeb() {
+    public void injectionTestSiteWeb() {
 	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestSiteWeb"};
 	try {
 	    InjectionMain.main(args);

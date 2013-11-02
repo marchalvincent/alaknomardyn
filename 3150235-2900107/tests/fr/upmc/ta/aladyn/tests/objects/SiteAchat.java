@@ -11,7 +11,6 @@ import fr.upmc.ta.aladyn.Transactionnable;
  * @author Michel Knoertzer & Vincent Marchal
  *
  */
-
 @Transactionnable
 public class SiteAchat {
 
@@ -81,7 +80,7 @@ public class SiteAchat {
      * Methode privé pemettant de retirer un achat du panier
      * @param achat à retirer du panier
      */
-    private void setRetirerAchatPanier(String achat) {
+    public void setRetirerAchatPanier(String achat) {
 	List<String> tmp = new ArrayList<String>();
 	for (String art : panier) {
 	    if (achat != art)
@@ -94,7 +93,7 @@ public class SiteAchat {
      * Methode privé pemettant de retirer un article des stocks
      * @param article à retirer des stocks
      */
-    private void setRetirerAchatStock(String article) {
+    public void setRetirerAchatStock(String article) {
 	List<String> tmp = new ArrayList<String>();
 	for (String achat : stock) {
 	    if (article != achat)
@@ -120,7 +119,6 @@ public class SiteAchat {
      * @param achat à ajouter au panier
      * @throws SiteAchatException
      */
-    @Transactionnable
     public void setAchatTransactionnable(String achat) throws SiteAchatException {
 	setAchat("un gros chien blanc");
 	throw new SiteAchatException();
@@ -167,7 +165,6 @@ public class SiteAchat {
      * Permet d'effctuer une commande et donc retirer les articles des stocks du site internet
      * Cette méthode lance un exception dans l'appel de la suppression du panier
      */
-    @Transactionnable
     public void setStockFail()throws SiteAchatException{
 	//On vide les stocks commandés
 	for (String achat : panier) {
