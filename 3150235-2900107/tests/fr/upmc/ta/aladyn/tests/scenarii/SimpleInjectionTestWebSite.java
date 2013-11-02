@@ -13,17 +13,19 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
 
 public class SimpleInjectionTestWebSite {
 
-    
     public static void main(String[] args) throws Exception {
 
+	//Création du site web
 	SiteAchat amazon = new SiteAchat();
 	
+	//Remplissage du site web
 	amazon.setStock("velo jaune");
 	amazon.setStock("une voiture noir");
 	amazon.setStock("chat roux");
 	amazon.setStock("chat violet");
 	amazon.setStock("un gros chien noir");
 	
+	//Préremplissage du panier
 	amazon.setAchat("velo jaune");
 	amazon.setAchat("une voiture noir");
 	
