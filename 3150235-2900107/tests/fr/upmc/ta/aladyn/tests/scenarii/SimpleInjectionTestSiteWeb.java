@@ -1,6 +1,6 @@
 package fr.upmc.ta.aladyn.tests.scenarii;
 
-import fr.upmc.ta.aladyn.tests.objects.SiteAchat;
+import fr.upmc.ta.aladyn.tests.objects.siteAchat;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
 
 
@@ -16,7 +16,7 @@ public class SimpleInjectionTestSiteWeb {
     public static void main(String[] args) throws Exception {
 
 	//Création du site web
-	SiteAchat amazon = new SiteAchat();
+	siteAchat amazon = new siteAchat();
 	
 	//Remplissage du site web
 	amazon.setStock("velo jaune");
@@ -35,7 +35,7 @@ public class SimpleInjectionTestSiteWeb {
 	    throw new SiteAchatException();
 
 	try {
-	    amazon.setAchatTransactionnable("chat roux");
+	    amazon.AchatTransactionnable("chat roux");
 	} catch (SiteAchatException e) {
 	    // la méthode est transactionnable, l'ajout de l'achat du "chat roux" dans le panier ne c'est pas effectué 
 	    if (amazon.getNbArticle() != 2)
@@ -53,7 +53,7 @@ public class SimpleInjectionTestSiteWeb {
 	
 	
 	try {
-	    amazon.setStockFail();
+	    amazon.stockFail();
 	} catch (SiteAchatException e) {
 	    //
 	    if (amazon.getNbArticle() != 3)

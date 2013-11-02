@@ -17,8 +17,8 @@ public class SimpleInterceptionTestSiteWebThreaded {
     public static void main(String[] args) throws SiteAchatException {
 
 	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
-	Thread t1 = new SiteAchatThreaded();
-	Thread t2 = new SiteAchatThreaded();
+	SiteAchatThreaded t1 = new SiteAchatThreaded();
+	SiteAchatThreaded t2 = new SiteAchatThreaded();
 	t1.start();
 	t2.start();
 	
@@ -28,7 +28,7 @@ public class SimpleInterceptionTestSiteWebThreaded {
 	    e.printStackTrace();
 	}
 	
-	if (t1.isInterrupted() || t2.isInterrupted())
+	if (t1.hasFailed() || t2.hasFailed())
 	    throw new SiteAchatException();
     }
 
