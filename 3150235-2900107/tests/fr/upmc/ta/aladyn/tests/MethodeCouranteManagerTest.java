@@ -31,14 +31,19 @@ public class MethodeCouranteManagerTest {
     public void testStack3() throws BackupException {
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
     }
-    
-    @Test(expected = BackupException.class)
+
+    @Test
     public void addBackupToEmptyStack() throws Exception {
 	TransactionnableClass tata = new TransactionnableClass(10);
 	BackupManager backup = new BackupManager(tata);
-	
-	// comme la stack est vide, un exception est lancée
+
+	// comme la stack est vide, le backup n'est pas gardé
 	MethodeCouranteManager.instance.addBackupToCurrentMethod(backup);
+	tata.x = 11;
+
+	// le restore ne doit rien restore
+	MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
+	assertTrue(tata.x == 11);
     }
 
     /**
@@ -47,10 +52,10 @@ public class MethodeCouranteManagerTest {
      */
     @Test
     public void testRestore() throws Exception {
-	
+
 	TransactionnableClass tata = new TransactionnableClass(10);
 	BackupManager bm = new BackupManager(tata);
-	
+
 	MethodeCouranteManager.instance.newTransactionnableMethod();
 	MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);
 	// modification de tata
@@ -67,10 +72,10 @@ public class MethodeCouranteManagerTest {
      */
     @Test
     public void testRestore2() throws Exception {
-	
+
 	TransactionnableClass tata = new TransactionnableClass(10);
 	BackupManager bm = new BackupManager(tata);
-	
+
 	// ajout de tata dans une première méthode 
 	MethodeCouranteManager.instance.newTransactionnableMethod();
 	MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);
@@ -82,12 +87,12 @@ public class MethodeCouranteManagerTest {
 	MethodeCouranteManager.instance.newTransactionnableMethod();
 	MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
-	
+
 	assertTrue(tata.x == 11);
-	
+
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
     }
-    
+
     @Test
     public void testMultithreads() throws Exception {
 	// TODO
