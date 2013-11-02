@@ -35,7 +35,7 @@ public class SimpleInjectionTestSiteWeb {
 	    throw new SiteAchatException();
 
 	try {
-	    amazon.setAchatTransactionnable("chat roux");
+	    amazon.AchatTransactionnable("chat roux");
 	} catch (SiteAchatException e) {
 	    // la méthode est transactionnable, l'ajout de l'achat du "chat roux" dans le panier ne c'est pas effectué 
 	    if (amazon.getNbArticle() != 2)
@@ -53,7 +53,7 @@ public class SimpleInjectionTestSiteWeb {
 	
 	
 	try {
-	    amazon.setStockFail();
+	    amazon.stockFail();
 	} catch (SiteAchatException e) {
 	    //
 	    if (amazon.getNbArticle() != 3)

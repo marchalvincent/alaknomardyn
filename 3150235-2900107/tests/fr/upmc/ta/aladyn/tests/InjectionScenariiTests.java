@@ -69,6 +69,20 @@ public class InjectionScenariiTests {
 	    assertTrue(false);
 	}
     }
+    
+    @Test
+    public void injectionTestSiteThread() {
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInterceptionTestThread"};
+	try {
+	    InjectionMain.main(args);
+	} catch (Throwable e) {
+	    // si une exception est sortie du main, ce n'est pas normal
+	    assertTrue(false);
+	}
+    }
+    
+    
+    
    
     
     

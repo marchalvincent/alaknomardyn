@@ -1,7 +1,5 @@
-package fr.upmc.ta.aladyn.tests.scenarii;
+package fr.upmc.ta.aladyn.tests.objects;
 
-import fr.upmc.ta.aladyn.tests.objects.CompteBancaire;
-import fr.upmc.ta.aladyn.tests.objects.CompteBancaireException;
 
 public class CompteBancaireTestThreaded extends Thread {
 
@@ -45,7 +43,7 @@ public class CompteBancaireTestThreaded extends Thread {
 	}
     }
     
-    public boolean hasFail() {
+    public boolean hasFailed() {
 	return fail;
     }
 }
