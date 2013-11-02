@@ -1,5 +1,6 @@
 package fr.upmc.ta.aladyn.interception;
 
+import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.backup.BackupManager;
 import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;
 import javassist.tools.reflect.*;
@@ -32,7 +33,7 @@ public class TransMetaObj extends Metaobject {
      */
     public Object trapMethodcall(int identifier, Object[] args) throws Throwable {
 	// On vérifie que la méthode est une méthode de type SET
-	if (getMethodName(identifier).startsWith("set")) {
+	if (getMethodName(identifier).startsWith("set") && getClassMetaobject().getMethod(identifier).isAnnotationPresent(Transactionnable.class)) {
 	    System.out.println("** trap : " + getMethodName(identifier) + " () in " + getClassMetaobject().getName());
 	    /**
 	     * Appel de la sauvegarde

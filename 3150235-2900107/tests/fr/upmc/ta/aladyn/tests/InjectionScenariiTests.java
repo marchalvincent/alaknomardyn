@@ -13,7 +13,7 @@ import fr.upmc.ta.aladyn.InjectionMain;
  * @author Michel Knoertzer & Vincent Marchal
  *
  */
-public class ScenariiTests {
+public class InjectionScenariiTests {
 
     @Test
     public void injectionTest() {
@@ -39,7 +39,7 @@ public class ScenariiTests {
     
     @Test
     public void injectionTest3() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.ComplexInjectionTestMain"};
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestMain"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -47,4 +47,18 @@ public class ScenariiTests {
 	    assertTrue(false);
 	}
     }
+
+    @Test
+    public void inteceptionTestSiteWeb() {
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestWebSite"};
+	try {
+	    InjectionMain.main(args);
+	} catch (Throwable e) {
+	    // si une exception est sortie du main, ce n'est pas normal
+	    assertTrue(false);
+	}
+    }
+   
+    
+    
 }
