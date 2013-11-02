@@ -45,33 +45,40 @@ public class TransMetaObj extends Metaobject {
      * {@link MethodeCouranteManager}. Dans le cas d'une exception nous restaurons les variables sauvegardées.
      */
     public Object trapMethodcall(int identifier, Object[] args) throws Throwable {
-	// On vérifie que la méthode est une méthode de type SET
-	if (getMethodName(identifier).startsWith("set") && getClassMetaobject().getMethod(identifier).isAnnotationPresent(Transactionnable.class)) {
-	    System.out.println("** trap : " + getMethodName(identifier) + " () in " + getClassMetaobject().getName());
-	    /**
-	     * Appel de la sauvegarde
-	     */
-	    // Ajout de la méthode courante dans la pile
-	    MethodeCouranteManager.instance.newTransactionnableMethod();
-	    // Création du {@link BackupManager} de l'objet applant
-	    MethodeCouranteManager.instance.addBackupToCurrentMethod(new BackupManager(getObject()));
+	
+	boolean methodStartsWithSet = getMethodName(identifier).startsWith("set");
+	boolean methodeIsTransactionnable = getClassMetaobject().getMethod(identifier).isAnnotationPresent(Transactionnable.class);
+	boolean classIsTransactionnable = getClassMetaobject().getJavaClass().isAnnotationPresent(Transactionnable.class);
 
-	    Object result;
-	    try {
-		result = super.trapMethodcall(identifier, args);
-	    } catch (Throwable e) {
-		/**
-		 * Appel de la restoration
-		 */
-		System.out.println("Appel de la méthode restore");
-		MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
-		throw e;
-	    }
-	    // Dépilement de la méthode
-	    MethodeCouranteManager.instance.endOfTransactionnableMethod();
-	    return result;
-	} else {
-	    return super.trapMethodcall(identifier, args);
+	boolean mustSaveObject = methodStartsWithSet && classIsTransactionnable;
+	boolean mustEmpileDepileAndCatchException = methodeIsTransactionnable;
+
+	if (mustEmpileDepileAndCatchException) {
+	    // si on est dans une méthode transactionnable, on empile la méthode dans la stack
+	    MethodeCouranteManager.instance.newTransactionnableMethod();
 	}
+
+	if (mustSaveObject) {
+	    // si on est dans un set, on sauvegarde l'objet 
+	    MethodeCouranteManager.instance.addBackupToCurrentMethod(new BackupManager(getObject()));
+	}
+	
+	Object result;
+	try {
+	    result = super.trapMethodcall(identifier, args);
+	} catch (Throwable e) {
+	    if (mustEmpileDepileAndCatchException) {
+		// si on est dans une méthode transactionnable, on restore les exception
+		MethodeCouranteManager.instance.restoreBackupsOfLastMethod();
+	    }
+	    throw e;
+	}
+
+	if (mustEmpileDepileAndCatchException) {
+	    // si on est dans une méthode transactionnable, on dépile la méthode de la stack
+	    MethodeCouranteManager.instance.endOfTransactionnableMethod();
+	}
+
+	return result;
     }
 }

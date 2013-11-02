@@ -24,6 +24,7 @@ public class InterceptionTranslator implements Translator {
 
     @Override
     public void onLoad(ClassPool pool, String classname) throws NotFoundException, CannotCompileException {
+	System.out.println("chargement de " + classname);
 	CtClass ctClass = pool.get(classname);
 
 	// On regarde si la CtClass est transactionnable

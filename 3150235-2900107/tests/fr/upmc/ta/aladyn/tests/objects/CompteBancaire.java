@@ -26,7 +26,7 @@ public class CompteBancaire {
 	return solde;
     }
     
-    private void setSolde(double nouveauSolde) {
+    public void setSolde(double nouveauSolde) {
 	this.solde = nouveauSolde;
     }
     
@@ -34,15 +34,16 @@ public class CompteBancaire {
      * Methode private pour solder le compte faisant appel au Setter pour que l'injection de code marche
      * @param credit
      */
-    private void crediter(double credit) {
-	this.setSolde(this.getSolde() + credit);
+    public void crediter(double credit) {
+	double tmp = this.getSolde() + credit;
+	this.setSolde(tmp);
     }
     
     /**
      * Methode private pour débiter le compte faisant appel au Setter pour que l'injection de code marche
      * @param debit
      */
-    private void debiter(double debit) {
+    public void debiter(double debit) {
 	this.setSolde(this.getSolde() - debit);
     }
     
@@ -60,7 +61,7 @@ public class CompteBancaire {
     }
 
     /**
-     * Transfert qui rate mais garde les données cohérentes.
+     * Transfert qui rate mais garde les données cohérentes (car transactionnable).
      * @param compteASolder
      * @param montant
      * @throws CompteBancaireException Une exception est levée pendant le transfert d'argent
