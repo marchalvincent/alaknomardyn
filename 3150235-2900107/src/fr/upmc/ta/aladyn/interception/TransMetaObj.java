@@ -48,6 +48,7 @@ public class TransMetaObj extends Metaobject {
 	
 	boolean methodStartsWithSet = getMethodName(identifier).startsWith("set");
 	boolean methodeIsTransactionnable = getClassMetaobject().getMethod(identifier).isAnnotationPresent(Transactionnable.class);
+	@SuppressWarnings("unchecked")
 	boolean classIsTransactionnable = getClassMetaobject().getJavaClass().isAnnotationPresent(Transactionnable.class);
 
 	boolean mustSaveObject = methodStartsWithSet && classIsTransactionnable;

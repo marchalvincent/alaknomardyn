@@ -76,6 +76,10 @@ public class InjectionTranslator implements Translator {
 		    // seulement les méthode commencant par "set"
 		    CtMethod methodCalled = mc.getMethod();
 		    if (methodCalled.getName().startsWith("set")) {
+			
+			if (methodCalled.getName().equals("setAchat"))
+			    System.out.println("injection de set achat !");
+			
 			methodCalled.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
 				+ "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
 		    }

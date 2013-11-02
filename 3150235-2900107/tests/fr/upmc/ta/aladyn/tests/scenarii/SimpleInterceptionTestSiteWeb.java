@@ -35,7 +35,7 @@ public class SimpleInterceptionTestSiteWeb {
 	    throw new SiteAchatException();
 
 	try {
-	    amazon.AchatTransactionnable("chat roux");
+	    amazon.achatTransactionnable("chat roux");
 	} catch (SiteAchatException e) {
 	    // la méthode est transactionnable, l 'ajout de l'achat du "chat roux" dans le panier ne c'est pas effectué 
 	    if (amazon.getNbArticle() != 2)
@@ -44,7 +44,7 @@ public class SimpleInterceptionTestSiteWeb {
 	
 	
 	try {
-	    amazon.setAchatFail("chat violet");
+	    amazon.addAchatFail("chat violet");
 	} catch (SiteAchatException e) {
 	    // la méthode n'est transactionnable pas, l'ajout de l'achat du "chat violet" dans le panier c'est effectué 
 	    if (amazon.getNbArticle() != 3)

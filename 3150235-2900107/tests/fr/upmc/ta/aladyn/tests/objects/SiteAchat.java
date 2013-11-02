@@ -108,7 +108,7 @@ public class SiteAchat {
      * @param achat
      * @throws siteAchatException Une exception est levée pendant l'achat sur le site
      */
-    public void setAchatFail(String achat) throws SiteAchatException {
+    public void addAchatFail(String achat) throws SiteAchatException {
 	setAchat("un gros chien noir");
 	throw new SiteAchatException();
 	// ici une exception est lancé, l'achat d'un mauvais article est survenu
@@ -120,7 +120,7 @@ public class SiteAchat {
      * @throws SiteAchatException
      */
     @Transactionnable
-    public void AchatTransactionnable(String achat) throws SiteAchatException {
+    public void achatTransactionnable(String achat) throws SiteAchatException {
 	setAchat("un gros chien blanc");
 	throw new SiteAchatException();
 	// ici l'achat d'un mauvais article est survenu, le panier n'a pas ajouté le mauvais article !

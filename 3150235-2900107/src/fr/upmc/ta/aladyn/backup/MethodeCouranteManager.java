@@ -49,7 +49,8 @@ public class MethodeCouranteManager {
      *             Cette exception est levée si aucune méthode transactionnable n'est enregistrée.
      */
     public void endOfTransactionnableMethod() throws BackupException {
-	this.checkEmpty();
+	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
+	    throw new BackupException("The Map of transactionnables methods is empty. You must call the newTransactionnableMethod.");
 	
 	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
 	if (stack == null || stack.isEmpty())
@@ -71,12 +72,14 @@ public class MethodeCouranteManager {
      * @throws BackupException
      */
     public void addBackupToCurrentMethod(BackupManager backup) throws BackupException {
-	this.checkEmpty();
+	// si la map est vide, on ne save pas le backup manager
+	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
+	    return;
 
+	// si la stack du thread n'existe pas ou est vide, on ne save pas le backup manager
 	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
 	if (stack == null || stack.isEmpty())
-	    throw new BackupException("The stack of transactionnables methods is not created or empty for this thread. "
-		    + "You must call the newTransactionnableMethod before to add a backupManager.");
+	    return;
 
 	// si la stack des méthodes transactionnable n'est pas vide, il faut alors sauvegarder le backup
 	for (CtMethodExecuted method : stack) {
@@ -90,13 +93,9 @@ public class MethodeCouranteManager {
      * @return une List de {@link BackupManager}.
      */
     public void restoreBackupsOfLastMethod() {
-	try {
-	    this.checkEmpty();
-	} catch (BackupException e1) {
-	    // si la Map est vide, on return simplement
+	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
 	    return;
-	}
-
+	
 	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
 	if (stack == null || stack.isEmpty())
 	    return;
@@ -109,14 +108,5 @@ public class MethodeCouranteManager {
 		e.printStackTrace();
 	    }
 	}
-    }
-
-    /**
-     * Vérifie que la map n'est pas vide et bien initialisée.
-     * @throws BackupException
-     */
-    private void checkEmpty() throws BackupException {
-	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
-	    throw new BackupException("The Map of transactionnables methods is empty. You must call the newTransactionnableMethod.");
     }
 }

@@ -47,17 +47,6 @@ public class InjectionScenariiTests {
 	    assertTrue(false);
 	}
     }
-    
-    @Test
-    public void injectionTestCompteBancaireThreaded() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaireThreaded"};
-	try {
-	    InjectionMain.main(args);
-	} catch (Throwable e) {
-	    // si une exception est sortie du main, ce n'est pas normal
-	    assertTrue(false);
-	}
-    }
 
     @Test
     public void injectionTestSiteWeb() {
@@ -71,8 +60,8 @@ public class InjectionScenariiTests {
     }
     
     @Test
-    public void injectionTestSiteThread() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInterceptionTestThread"};
+    public void injectionTestThreaded() {
+	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleTestThreaded"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -80,10 +69,4 @@ public class InjectionScenariiTests {
 	    assertTrue(false);
 	}
     }
-    
-    
-    
-   
-    
-    
 }

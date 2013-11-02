@@ -13,11 +13,11 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatThreaded;
  * 
  */
 
-public class SimpleInterceptionTestThread {
+public class SimpleTestThreaded {
 
     public static void main(String[] args) throws SiteAchatException {
 
-	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
+//	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
 	SiteAchatThreaded t1 = new SiteAchatThreaded();
 	CompteBancaireTestThreaded t2 = new CompteBancaireTestThreaded();
 	t1.start();

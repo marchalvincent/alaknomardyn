@@ -1,16 +1,16 @@
 package fr.upmc.ta.aladyn.tests.objects;
 
+
 public class SiteAchatThreaded extends Thread {
 
-    private boolean hasFail = true;
+    private boolean hasFail = false;
+    
     public boolean hasFailed() {
 	return hasFail;
     }
 
     @Override
-    public void run()
-    {
-	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
+    public void run() {
 
 	//Création du site web
 	SiteAchat amazon = new SiteAchat();
@@ -28,28 +28,29 @@ public class SiteAchatThreaded extends Thread {
 
 
 	// test de vérification
-	if (amazon.getNbArticle() != 2){
-	    hasFail = false;
+	if (amazon.getNbArticle() != 2) {
+	    hasFail = true;
 	    return;
 	}
 
 	try {
-	    amazon.AchatTransactionnable("chat roux");
+	    amazon.achatTransactionnable("chat roux");
 	} catch (SiteAchatException e) {
 	    // la méthode est transactionnable, l'ajout de l'achat du "chat roux" dans le panier ne c'est pas effectué 
-	    if (amazon.getNbArticle() != 2){
-		hasFail = false;
+	    if (amazon.getNbArticle() != 2) {
+		hasFail = true;
 		return;
 	    }
 	}
 
 
 	try {
-	    amazon.setAchatFail("chat violet");
+	    amazon.addAchatFail("chat violet");
+	    System.out.println(amazon.getNbArticle());
 	} catch (SiteAchatException e) {
 	    // la méthode n'est transactionnable pas, l'ajout de l'achat du "chat violet" dans le panier c'est effectué 
-	    if (amazon.getNbArticle() != 3){
-		hasFail = false;
+	    if (amazon.getNbArticle() != 3) {
+		hasFail = true;
 		return;
 	    }
 
@@ -59,16 +60,16 @@ public class SiteAchatThreaded extends Thread {
 	    amazon.stockFail();
 	} catch (SiteAchatException e) {
 	    //
-	    if (amazon.getNbArticle() != 3){
-		hasFail = false;
+	    if (amazon.getNbArticle() != 3) {
+		hasFail = true;
 		return;
 	    }
 
 	}
 
 	amazon.setStock();
-	if (amazon.getNbArticle() != 0){
-		hasFail = false;
+	if (amazon.getNbArticle() != 0) {
+		hasFail = true;
 		return;
 	    }
 
