@@ -13,7 +13,7 @@ public class SiteAchatThreaded extends Thread {
 	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
 
 	//Création du site web
-	siteAchat amazon = new siteAchat();
+	SiteAchat amazon = new SiteAchat();
 
 	//Remplissage du site web
 	amazon.setStock("velo jaune");

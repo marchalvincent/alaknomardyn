@@ -1,6 +1,6 @@
 package fr.upmc.ta.aladyn.tests.scenarii;
 
-import fr.upmc.ta.aladyn.tests.objects.siteAchat;
+import fr.upmc.ta.aladyn.tests.objects.SiteAchat;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
 
 
@@ -16,7 +16,7 @@ public class SimpleInterceptionTestSiteWeb {
     public static void main(String[] args) throws Exception {
 
 	//Création du site web
-	siteAchat amazon = new siteAchat();
+	SiteAchat amazon = new SiteAchat();
 	
 	//Remplissage du site web
 	amazon.setStock("velo jaune");

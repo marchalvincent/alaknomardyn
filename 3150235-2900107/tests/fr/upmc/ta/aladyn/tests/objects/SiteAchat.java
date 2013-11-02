@@ -12,7 +12,7 @@ import fr.upmc.ta.aladyn.Transactionnable;
  *
  */
 @Transactionnable
-public class siteAchat {
+public class SiteAchat {
 
     private List<String> stock;
     private List<String> panier;
@@ -20,7 +20,7 @@ public class siteAchat {
     /**
      * Constructeur
      */
-    public siteAchat() {
+    public SiteAchat() {
 	this.panier = new ArrayList<String>();
 	this.stock = new ArrayList<String>();
     }
