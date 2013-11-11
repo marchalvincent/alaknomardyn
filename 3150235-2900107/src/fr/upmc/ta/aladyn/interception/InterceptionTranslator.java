@@ -18,9 +18,7 @@ public class InterceptionTranslator implements Translator {
     }
 
     @Override
-    public void start(ClassPool pool) throws NotFoundException, CannotCompileException {
-	// TODO Auto-generated method stub
-    }
+    public void start(ClassPool pool) throws NotFoundException, CannotCompileException {}
 
     @Override
     public void onLoad(ClassPool pool, String classname) throws NotFoundException, CannotCompileException {
@@ -36,7 +34,5 @@ public class InterceptionTranslator implements Translator {
 	} catch (Throwable e) {
 	    e.printStackTrace();
 	}
-
     }
-
 }

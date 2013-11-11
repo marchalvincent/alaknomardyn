@@ -1,14 +1,13 @@
-package fr.upmc.ta.aladyn.tests;
+package fr.upmc.ta.aladyn;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import fr.upmc.ta.aladyn.InjectionMain;
+import fr.upmc.ta.aladyn.injection.InjectionMain;
 
 /**
- * Cette classe permet de tester les mains des injections (resp. interceptions) de code (resp. d'appel de méthode) à l'aide de programme
- * décrivant des scénarii plus ou moins complexes.
+ * Cette classe permet de tester les mains des injections de code à l'aide de programme décrivant des scénarii plus ou moins complexes.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  *
@@ -17,7 +16,7 @@ public class InjectionScenariiTests {
 
     @Test
     public void injectionTestCompteBancaire() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaire"};
+	String[] args = {"fr.upmc.ta.aladyn.injection.SimpleInjectionTestCompteBancaire"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -28,7 +27,7 @@ public class InjectionScenariiTests {
     
     @Test
     public void injectionTestCompteBancaire2() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaire2"};
+	String[] args = {"fr.upmc.ta.aladyn.injection.SimpleInjectionTestCompteBancaire2"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -39,7 +38,7 @@ public class InjectionScenariiTests {
     
     @Test
     public void injectionTestCompteBancaire3() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestCompteBancaire3"};
+	String[] args = {"fr.upmc.ta.aladyn.injection.SimpleInjectionTestCompteBancaire3"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -50,7 +49,7 @@ public class InjectionScenariiTests {
 
     @Test
     public void injectionTestSiteWeb() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleInjectionTestSiteWeb"};
+	String[] args = {"fr.upmc.ta.aladyn.injection.SimpleInjectionTestSiteWeb"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {
@@ -61,7 +60,7 @@ public class InjectionScenariiTests {
     
     @Test
     public void injectionTestThreaded() {
-	String[] args = {"fr.upmc.ta.aladyn.tests.scenarii.SimpleTestThreaded"};
+	String[] args = {"fr.upmc.ta.aladyn.injection.SimpleTestThreaded"};
 	try {
 	    InjectionMain.main(args);
 	} catch (Throwable e) {

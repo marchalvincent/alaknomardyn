@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests.scenarii;
+package fr.upmc.ta.aladyn.injection;
 
 import fr.upmc.ta.aladyn.tests.objects.CompteBancaire;
 import fr.upmc.ta.aladyn.tests.objects.CompteBancaireException;
@@ -9,7 +9,7 @@ import fr.upmc.ta.aladyn.tests.objects.CompteBancaireException;
  * @author Michel Knoertzer & Vincent Marchal
  *
  */
-public class SimpleInjectionTestCompteBancaire2 {
+public class SimpleInjectionTestCompteBancaire3 {
 
     public static void main(String[] args) throws Exception {
 	
@@ -20,14 +20,14 @@ public class SimpleInjectionTestCompteBancaire2 {
 	if (vincent.getSolde() + michel.getSolde() != 100)
 	    throw new CompteBancaireException();
 
-	michel.transfertTransactionnableWithInternalException(vincent, 50);
-	if (vincent.getSolde() != 50 || michel.getSolde() != 50)
+	michel.transfertTransactionnableWithSurety(vincent, 50);
+	if (vincent.getSolde() != 0 || michel.getSolde() != 100)
 		throw new CompteBancaireException();
-	
-	// cette méthode est volontairement fausse pour montrer que sans l'injection cela pose un problème
-	michel.wrongTransfertWithInternalException(vincent, 50);
-	if (vincent.getSolde() != 100 || michel.getSolde() != -50)
-	    throw new CompteBancaireException();
+	try {
+	    michel.imbricatedTransfertTransactionnable(vincent, 50);
+	} catch (CompteBancaireException e) {
+	    if (vincent.getSolde() != 0 || michel.getSolde() != 100)
+		throw new CompteBancaireException();
+	}
     }
-
 }

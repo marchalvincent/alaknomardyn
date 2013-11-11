@@ -1,9 +1,10 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.interception;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.NotFoundException;
 import javassist.tools.reflect.Loader;
+import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.interception.InterceptionTranslator;
 
 /**

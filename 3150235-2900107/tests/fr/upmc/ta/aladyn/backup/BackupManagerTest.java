@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests;
+package fr.upmc.ta.aladyn.backup;
 
 import static org.junit.Assert.assertTrue;
 

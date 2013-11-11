@@ -1,9 +1,10 @@
-package fr.upmc.ta.aladyn;
+package fr.upmc.ta.aladyn.injection;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.Loader;
 import javassist.NotFoundException;
+import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.injection.InjectionTranslator;
 
 /**
