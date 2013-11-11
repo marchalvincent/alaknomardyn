@@ -76,10 +76,7 @@ public class InjectionTranslator implements Translator {
 		    // seulement les méthode commencant par "set"
 		    CtMethod methodCalled = mc.getMethod();
 		    if (methodCalled.getName().startsWith("set")) {
-			
-			if (methodCalled.getName().equals("setAchat"))
-			    System.out.println("injection de set achat !");
-			
+
 			methodCalled.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
 				+ "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
 		    }
@@ -109,6 +106,10 @@ public class InjectionTranslator implements Translator {
      *             si la récupération de la classe Throwable ne fonctionne pas.
      */
     private void injectMethod(CtMethod method, ClassPool pool) throws CannotCompileException, NotFoundException {
+
+	// Une vérification au cas ou. Normalement le traitement est déjà fait plus haut...
+	if (!method.hasAnnotation(Transactionnable.class))
+	    return;
 
 	final String restoreMethod = "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.restoreBackupsOfLastMethod();";
 

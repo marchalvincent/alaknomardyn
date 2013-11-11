@@ -16,7 +16,14 @@ import fr.upmc.ta.aladyn.Transactionnable;
  */
 public class BackupManager {
 
+    /**
+     * Référence vers l'objet à sauvegarder
+     */
     private Object objectToRestore;
+    
+    /**
+     * Les champs de l'objet sauvegardé
+     */
     private Map<Field, Object> savedFields;
 
     public BackupManager(Object objectToSave) throws Exception {
@@ -32,16 +39,17 @@ public class BackupManager {
     }
 
     /**
-     * Méthode permettant de sauvegarder un objet à un instant T
+     * Méthode permettant de sauvegarder un objet à un instant t.
      * 
      * @param objectToSave
      *            : Objet à sauvegarder
      * 
+     * @throws BackupException
+     *             En cas d'erreur lors de la sauvegarde car l'objet à sauvegarder n'est pas transactionnable.
      * @throws Exception
-     *             En cas d'erreur lors de la sauvegarde. Soit l'objet à sauvegarder n'est pas transactionnable, soit c'est une
-     *             erreur lors de la manipulation de la reflexion java.
+     * 			En cas d'erreur lors de la sauvegarde car la manipulation de la reflexion java a échouée.
      */
-    public void save(Object objectToSave) throws Exception {
+    public void save(Object objectToSave) throws BackupException, Exception {
 
 	// petite vérification, si l'objet n'est pas transactionnable
 	if (objectToSave.getClass().getAnnotation(Transactionnable.class) == null) {
@@ -73,9 +81,10 @@ public class BackupManager {
     /**
      * Méthode permettant de restaurer l'objet préalablement sauvegardé.
      * 
-     * @throws Exception
+     * @throws BackupException si l'objet à restaurer est inconnu.
+     * @throws Exception lorsque la reflexion java échoue.
      */
-    public void restore() throws Exception {
+    public void restore() throws BackupException, Exception {
 
 	if (objectToRestore == null)
 	    throw new BackupException("The object must be saved before to be restored.");

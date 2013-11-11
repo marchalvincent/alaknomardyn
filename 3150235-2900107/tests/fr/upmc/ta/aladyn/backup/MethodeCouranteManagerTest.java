@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests;
+package fr.upmc.ta.aladyn.backup;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,6 +18,10 @@ import fr.upmc.ta.aladyn.tests.objects.TransactionnableClass;
  */
 public class MethodeCouranteManagerTest {
 
+    /**
+     * Teste l'empilement / le dépilement
+     * @throws BackupException
+     */
     @Test
     public void testStack() throws BackupException {
 	MethodeCouranteManager.instance.newTransactionnableMethod();
@@ -27,6 +31,10 @@ public class MethodeCouranteManagerTest {
 	assertTrue(true);
     }
 
+    /**
+     * Teste que l'on ne peut pas dépiler la stack des méthodes si on n'a empilé aucune méthode.
+     * @throws BackupException
+     */
     @Test(expected = BackupException.class)
     public void testStack3() throws BackupException {
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();

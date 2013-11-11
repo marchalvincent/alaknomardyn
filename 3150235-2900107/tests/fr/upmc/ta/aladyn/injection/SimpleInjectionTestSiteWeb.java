@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests.scenarii;
+package fr.upmc.ta.aladyn.injection;
 
 import fr.upmc.ta.aladyn.tests.objects.SiteAchat;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
@@ -11,7 +11,7 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
  * 
  */
 
-public class SimpleInterceptionTestSiteWeb {
+public class SimpleInjectionTestSiteWeb {
 
     public static void main(String[] args) throws Exception {
 
@@ -37,7 +37,7 @@ public class SimpleInterceptionTestSiteWeb {
 	try {
 	    amazon.achatTransactionnable("chat roux");
 	} catch (SiteAchatException e) {
-	    // la méthode est transactionnable, l 'ajout de l'achat du "chat roux" dans le panier ne c'est pas effectué 
+	    // la méthode est transactionnable, l'ajout de l'achat du "chat roux" dans le panier ne c'est pas effectué 
 	    if (amazon.getNbArticle() != 2)
 		throw new SiteAchatException();
 	}

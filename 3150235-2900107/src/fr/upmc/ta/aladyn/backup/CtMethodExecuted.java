@@ -39,7 +39,7 @@ public class CtMethodExecuted {
     }
 
     /**
-     * Simple Getter.
+     * Simple Getter sur la liste des objets de backup.
      * 
      * @return List.
      */

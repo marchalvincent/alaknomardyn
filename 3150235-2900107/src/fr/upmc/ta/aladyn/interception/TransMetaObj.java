@@ -6,9 +6,7 @@ import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;
 import javassist.tools.reflect.*;
 
 public class TransMetaObj extends Metaobject {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
 
     /**

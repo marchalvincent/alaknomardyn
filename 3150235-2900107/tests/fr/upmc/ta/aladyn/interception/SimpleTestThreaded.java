@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.tests.scenarii;
+package fr.upmc.ta.aladyn.interception;
 
 import fr.upmc.ta.aladyn.tests.objects.CompteBancaireTestThreaded;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
@@ -17,7 +17,6 @@ public class SimpleTestThreaded {
 
     public static void main(String[] args) throws SiteAchatException {
 
-//	System.out.println("test : " + String.valueOf(Thread.currentThread().getId()));
 	SiteAchatThreaded t1 = new SiteAchatThreaded();
 	CompteBancaireTestThreaded t2 = new CompteBancaireTestThreaded();
 	t1.start();
@@ -37,6 +36,4 @@ public class SimpleTestThreaded {
 	if (t1.hasFailed() || t2.hasFailed())
 	    throw new SiteAchatException();
     }
-
-    
 }
