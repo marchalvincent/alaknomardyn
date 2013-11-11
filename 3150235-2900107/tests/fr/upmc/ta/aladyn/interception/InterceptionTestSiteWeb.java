@@ -11,7 +11,7 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
  * 
  */
 
-public class SimpleInterceptionTestSiteWeb {
+public class InterceptionTestSiteWeb {
 
     public static void main(String[] args) throws Exception {
 

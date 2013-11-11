@@ -16,7 +16,7 @@ public class InterceptionScenariiTests {
 
     @Test
     public void inteceptionTestCompteBancaire() {
-	String[] args = {"fr.upmc.ta.aladyn.interception.SimpleInterceptionTestCompteBancaire"};
+	String[] args = {"fr.upmc.ta.aladyn.interception.InterceptionTestCompteBancaire"};
 	try {
 	    InterceptionMain.main(args);
 	} catch (Throwable e) {
@@ -27,7 +27,7 @@ public class InterceptionScenariiTests {
     
     @Test
     public void inteceptionTestSiteWeb() {
-	String[] args = {"fr.upmc.ta.aladyn.interception.SimpleInterceptionTestSiteWeb"};
+	String[] args = {"fr.upmc.ta.aladyn.interception.InterceptionTestSiteWeb"};
 	try {
 	    InterceptionMain.main(args);
 	} catch (Throwable e) {
@@ -39,16 +39,13 @@ public class InterceptionScenariiTests {
     
     @Test
     public void inteceptionSimpleTestThreaded() {
-	String[] args = {"fr.upmc.ta.aladyn.interception.SimpleTestThreaded"};
+	String[] args = {"fr.upmc.ta.aladyn.interception.InterceptionTestThreaded"};
 	try {
 	    InterceptionMain.main(args);
 	} catch (Throwable e) {
 	    // si une exception est sortie du main, ce n'est pas normal
 	    assertTrue(false);
 	}
-    }
-    
-    
-    
+    }  
 
 }

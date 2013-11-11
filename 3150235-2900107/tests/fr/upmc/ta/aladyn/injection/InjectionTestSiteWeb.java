@@ -10,8 +10,7 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
  * @author Michel Knoertzer & Vincent Marchal
  * 
  */
-
-public class SimpleInjectionTestSiteWeb {
+public class InjectionTestSiteWeb {
 
     public static void main(String[] args) throws Exception {
 
@@ -29,7 +28,6 @@ public class SimpleInjectionTestSiteWeb {
 	amazon.setAchat("velo jaune");
 	amazon.setAchat("une voiture noir");
 	
-
 	// test de vérification
 	if (amazon.getNbArticle() != 2)
 	    throw new SiteAchatException();
@@ -42,7 +40,6 @@ public class SimpleInjectionTestSiteWeb {
 		throw new SiteAchatException();
 	}
 	
-	
 	try {
 	    amazon.addAchatFail("chat violet");
 	} catch (SiteAchatException e) {
@@ -51,11 +48,9 @@ public class SimpleInjectionTestSiteWeb {
 		throw new SiteAchatException();
 	}
 	
-	
 	try {
 	    amazon.stockFail();
 	} catch (SiteAchatException e) {
-	    //
 	    if (amazon.getNbArticle() != 3)
 		throw new SiteAchatException();
 	}
@@ -63,7 +58,5 @@ public class SimpleInjectionTestSiteWeb {
 	amazon.setStock();
 	if (amazon.getNbArticle() != 0)
 		throw new SiteAchatException();
-	
-
     }
 }
