@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.interception;
+package fr.upmc.ta.aladyn.injection;
 
 import fr.upmc.ta.aladyn.tests.objects.CompteBancaireTestThreaded;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
@@ -6,14 +6,14 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatThreaded;
 
 
 /**
- * TODO
- * Cette classe teste l'injection de code avec l'exemple d'achat d'article sur un site en ligne.
+ * Cette classe teste l'injection de code avec avec plusieurs file d'éxecution. Pour chaque thread
+ * un main manipule des objets transactionnables distincts.
  * 
  * @author Michel Knoertzer & Vincent Marchal
  * 
  */
 
-public class SimpleTestThreaded {
+public class InjectionTestThreaded {
 
     public static void main(String[] args) throws SiteAchatException {
 

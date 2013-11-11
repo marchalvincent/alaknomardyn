@@ -1,4 +1,4 @@
-package fr.upmc.ta.aladyn.injection;
+package fr.upmc.ta.aladyn.interception;
 
 import fr.upmc.ta.aladyn.tests.objects.CompteBancaireTestThreaded;
 import fr.upmc.ta.aladyn.tests.objects.SiteAchatException;
@@ -13,7 +13,7 @@ import fr.upmc.ta.aladyn.tests.objects.SiteAchatThreaded;
  * 
  */
 
-public class SimpleTestThreaded {
+public class InterceptionTestThreaded {
 
     public static void main(String[] args) throws SiteAchatException {
 

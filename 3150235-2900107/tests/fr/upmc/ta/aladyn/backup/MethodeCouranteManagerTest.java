@@ -40,6 +40,10 @@ public class MethodeCouranteManagerTest {
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
     }
 
+    /**
+     * Test qu'une sauvegarde qui n'est pas dans une méthode transactionnable (imbriquée ou non) n'est pas prise en compte.
+     * @throws Exception
+     */
     @Test
     public void addBackupToEmptyStack() throws Exception {
 	TransactionnableClass tata = new TransactionnableClass(10);
