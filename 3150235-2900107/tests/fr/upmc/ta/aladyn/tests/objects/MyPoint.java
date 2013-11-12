@@ -7,7 +7,7 @@ import fr.upmc.ta.aladyn.Transactionnable;
  * Une classe permettant de tester la sauvegarde des références d'objet et de tableaux.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 @Transactionnable
 public class MyPoint {

@@ -15,7 +15,7 @@ import fr.upmc.ta.aladyn.tests.objects.MyPoint;
  * et un tableau d'int.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class MyPointTest {
 

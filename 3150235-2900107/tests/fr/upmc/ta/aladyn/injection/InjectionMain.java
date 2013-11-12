@@ -8,11 +8,11 @@ import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.injection.InjectionTranslator;
 
 /**
- * Main qui permet d'injecter du code dans un programme utilisant les annotations {@link Transactionnable}.
- * Les injections permettent la restauration des objets transactionnables en cas de problèmes dans une méthode transactionnable.
+ * Main qui permet d'injecter du code dans un programme utilisant les annotations {@link Transactionnable}. Les injections
+ * permettent la restauration des objets transactionnables en cas de problèmes dans une méthode transactionnable.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class InjectionMain {
 

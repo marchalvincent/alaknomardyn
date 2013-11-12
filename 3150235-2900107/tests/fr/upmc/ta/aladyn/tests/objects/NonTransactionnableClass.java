@@ -4,7 +4,7 @@ package fr.upmc.ta.aladyn.tests.objects;
  * Une classe permettant de tester que les sauvegardes ne sont pas appliquées sur les objets non transactionnables.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class NonTransactionnableClass {
 

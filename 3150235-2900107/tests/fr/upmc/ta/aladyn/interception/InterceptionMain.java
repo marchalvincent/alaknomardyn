@@ -8,14 +8,13 @@ import fr.upmc.ta.aladyn.Transactionnable;
 import fr.upmc.ta.aladyn.interception.InterceptionTranslator;
 
 /**
- * Main qui permet d'intercepter les appels de méthodes dans un programme utilisant les annotations {@link Transactionnable}.
- * Les interceptions permettent la restauration des objets transactionnables en cas de problèmes dans une méthode transactionnable.
+ * Main qui permet d'intercepter les appels de méthodes dans un programme utilisant les annotations {@link Transactionnable}. Les
+ * interceptions permettent la restauration des objets transactionnables en cas de problèmes dans une méthode transactionnable.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class InterceptionMain {
-
 
     private static boolean initialized = false;
 
@@ -25,7 +24,7 @@ public class InterceptionMain {
 
     public static void main(String[] args) throws Throwable {
 	try {
-	    if (!initialized) 
+	    if (!initialized)
 		initialize();
 	    loader.run(args[0], args);
 	} catch (Throwable e) {

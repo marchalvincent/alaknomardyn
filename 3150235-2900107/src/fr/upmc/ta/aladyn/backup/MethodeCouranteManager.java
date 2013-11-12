@@ -29,8 +29,8 @@ public class MethodeCouranteManager {
     Map<Long, Stack<CtMethodExecuted>> stackMethodsOfThreads;
 
     /**
-     * Créé une nouvelle {@link CtMethodExecuted} et la push dans la Stack des méthodes du thread en cours. Cette méthode est à appeler en
-     * début de méthode transactionnable.
+     * Créé une nouvelle {@link CtMethodExecuted} et la push dans la Stack des méthodes du thread en cours. Cette méthode est à
+     * appeler en début de méthode transactionnable.
      */
     public void newTransactionnableMethod() {
 	Long threadId = Thread.currentThread().getId();
@@ -50,8 +50,9 @@ public class MethodeCouranteManager {
      */
     public void endOfTransactionnableMethod() throws BackupException {
 	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
-	    throw new BackupException("The Map of transactionnables methods is empty. You must call the newTransactionnableMethod.");
-	
+	    throw new BackupException(
+		    "The Map of transactionnables methods is empty. You must call the newTransactionnableMethod.");
+
 	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
 	if (stack == null || stack.isEmpty())
 	    throw new BackupException(
@@ -62,10 +63,12 @@ public class MethodeCouranteManager {
     }
 
     /**
-     * Ajoute un backup d'objet dans la liste de la méthode transactionnable courrante (celle qui est au dessus de la stack) pour le thread en cours.
+     * Ajoute un backup d'objet dans la liste de la méthode transactionnable courrante (celle qui est au dessus de la stack) pour
+     * le thread en cours.
      * 
-     * Il faut également renvoyer ce backup dans les autres méthodes transactionnable de la pile du thread, car si un problème intervient
-     * dans celles-ci, les modifications apportée dans la méthode courrante (celle du haut de la pile) doivent être défaites.
+     * Il faut également renvoyer ce backup dans les autres méthodes transactionnable de la pile du thread, car si un problème
+     * intervient dans celles-ci, les modifications apportée dans la méthode courrante (celle du haut de la pile) doivent être
+     * défaites.
      * 
      * @param backup
      *            le backup de l'objet enregistré
@@ -88,18 +91,19 @@ public class MethodeCouranteManager {
     }
 
     /**
-     * Fait appel à la méthode restore de l'ensemble des backupManager de la méthode transactionnable courrante pour le thread en cours.
+     * Fait appel à la méthode restore de l'ensemble des backupManager de la méthode transactionnable courrante pour le thread en
+     * cours.
      * 
      * @return une List de {@link BackupManager}.
      */
     public void restoreBackupsOfLastMethod() {
 	if (stackMethodsOfThreads == null || stackMethodsOfThreads.isEmpty())
 	    return;
-	
+
 	Stack<CtMethodExecuted> stack = stackMethodsOfThreads.get(Thread.currentThread().getId());
 	if (stack == null || stack.isEmpty())
 	    return;
-	
+
 	// pour chaque backup, on lance le restore
 	for (BackupManager backupManager : stack.peek().getBackupsList()) {
 	    try {
