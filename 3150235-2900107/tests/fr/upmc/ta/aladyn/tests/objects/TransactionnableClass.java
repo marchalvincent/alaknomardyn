@@ -6,7 +6,7 @@ import fr.upmc.ta.aladyn.Transactionnable;
  * Une classe transactionnable contenant un champ de type primitif.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 @Transactionnable
 public class TransactionnableClass {

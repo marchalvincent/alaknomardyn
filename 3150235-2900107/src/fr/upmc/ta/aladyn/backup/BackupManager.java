@@ -20,7 +20,7 @@ public class BackupManager {
      * Référence vers l'objet à sauvegarder
      */
     private Object objectToRestore;
-    
+
     /**
      * Les champs de l'objet sauvegardé
      */
@@ -47,13 +47,14 @@ public class BackupManager {
      * @throws BackupException
      *             En cas d'erreur lors de la sauvegarde car l'objet à sauvegarder n'est pas transactionnable.
      * @throws Exception
-     * 			En cas d'erreur lors de la sauvegarde car la manipulation de la reflexion java a échouée.
+     *             En cas d'erreur lors de la sauvegarde car la manipulation de la reflexion java a échouée.
      */
     public void save(Object objectToSave) throws BackupException, Exception {
 
 	// petite vérification, si l'objet n'est pas transactionnable
 	if (objectToSave.getClass().getAnnotation(Transactionnable.class) == null) {
-	    throw new BackupException("BackupManager : The object to save is not transactionnable : " + objectToSave.getClass().getSimpleName() + ".");
+	    throw new BackupException("BackupManager : The object to save is not transactionnable : "
+		    + objectToSave.getClass().getSimpleName() + ".");
 	}
 
 	objectToRestore = objectToSave;
@@ -81,8 +82,10 @@ public class BackupManager {
     /**
      * Méthode permettant de restaurer l'objet préalablement sauvegardé.
      * 
-     * @throws BackupException si l'objet à restaurer est inconnu.
-     * @throws Exception lorsque la reflexion java échoue.
+     * @throws BackupException
+     *             si l'objet à restaurer est inconnu.
+     * @throws Exception
+     *             lorsque la reflexion java échoue.
      */
     public void restore() throws BackupException, Exception {
 

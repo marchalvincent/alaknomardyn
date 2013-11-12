@@ -1,15 +1,21 @@
 package fr.upmc.ta.aladyn.tests.objects;
 
-
+/**
+ * Cette classe définit un scénario de transaction bancaire. Elle étend la classe {@link Thread} et donc peut être utilisée pour
+ * des tests multi-threadés.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ * 
+ */
 public class CompteBancaireTestThreaded extends Thread {
 
     private boolean fail;
-    
+
     public CompteBancaireTestThreaded() {
 	super();
 	this.fail = false;
     }
-    
+
     @Override
     public void run() {
 
@@ -27,8 +33,8 @@ public class CompteBancaireTestThreaded extends Thread {
 	} catch (CompteBancaireException e) {
 	    // la méthode est transactionnable, le solde doit avoir été rétabli
 	    if (vincent.getSolde() != 0 || michel.getSolde() != 100) {
-		    this.fail = true;
-		    return;
+		this.fail = true;
+		return;
 	    }
 	}
 
@@ -37,12 +43,12 @@ public class CompteBancaireTestThreaded extends Thread {
 	} catch (CompteBancaireException e) {
 	    // la méthode n'est pas transactionnable, le solde de michel a été débité mais celui de vincent non crédité !
 	    if (vincent.getSolde() != 0 || michel.getSolde() != 50) {
-		    this.fail = true;
-		    return;
+		this.fail = true;
+		return;
 	    }
 	}
     }
-    
+
     public boolean hasFailed() {
 	return fail;
     }

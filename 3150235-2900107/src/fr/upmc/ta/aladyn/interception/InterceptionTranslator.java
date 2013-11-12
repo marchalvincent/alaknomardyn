@@ -18,18 +18,20 @@ public class InterceptionTranslator implements Translator {
     }
 
     @Override
-    public void start(ClassPool pool) throws NotFoundException, CannotCompileException {}
+    public void start(ClassPool pool) throws NotFoundException, CannotCompileException {
+    }
 
     @Override
     public void onLoad(ClassPool pool, String classname) throws NotFoundException, CannotCompileException {
-//	System.out.println("chargement de " + classname);
+	// System.out.println("chargement de " + classname);
 	CtClass ctClass = pool.get(classname);
 
 	// On regarde si la CtClass est transactionnable
 	try {
 	    if (ctClass.hasAnnotation(Transactionnable.class)) {
 		loader = new Loader();
-		loader.makeReflective(classname, "fr.upmc.ta.aladyn.interception.TransMetaObj", "javassist.tools.reflect.ClassMetaobject");
+		loader.makeReflective(classname, "fr.upmc.ta.aladyn.interception.TransMetaObj",
+			"javassist.tools.reflect.ClassMetaobject");
 	    }
 	} catch (Throwable e) {
 	    e.printStackTrace();

@@ -11,6 +11,7 @@ public class TransMetaObj extends Metaobject {
 
     /**
      * Méthode non surchargé
+     * 
      * @param self
      * @param args
      */
@@ -20,6 +21,7 @@ public class TransMetaObj extends Metaobject {
 
     /**
      * Méthode non surchargé
+     * 
      * @param self
      * @param args
      */
@@ -29,6 +31,7 @@ public class TransMetaObj extends Metaobject {
 
     /**
      * Méthode non surchargé
+     * 
      * @param self
      * @param args
      */
@@ -37,15 +40,15 @@ public class TransMetaObj extends Metaobject {
     }
 
     /**
-     * Méthode surchargé
-     * Permet d'intercepter les appels des méthodes débutant par "set". Avant la réalisation de la méthode nous réalisons une
-     * sauvegarde les objets passé en parametre via les {@link BackupManager} dans la pile présente dans la class
+     * Méthode surchargé Permet d'intercepter les appels des méthodes débutant par "set". Avant la réalisation de la méthode nous
+     * réalisons une sauvegarde les objets passé en parametre via les {@link BackupManager} dans la pile présente dans la class
      * {@link MethodeCouranteManager}. Dans le cas d'une exception nous restaurons les variables sauvegardées.
      */
     public Object trapMethodcall(int identifier, Object[] args) throws Throwable {
-	
+
 	boolean methodStartsWithSet = getMethodName(identifier).startsWith("set");
-	boolean methodeIsTransactionnable = getClassMetaobject().getMethod(identifier).isAnnotationPresent(Transactionnable.class);
+	boolean methodeIsTransactionnable = getClassMetaobject().getMethod(identifier)
+		.isAnnotationPresent(Transactionnable.class);
 	@SuppressWarnings("unchecked")
 	boolean classIsTransactionnable = getClassMetaobject().getJavaClass().isAnnotationPresent(Transactionnable.class);
 
@@ -58,10 +61,10 @@ public class TransMetaObj extends Metaobject {
 	}
 
 	if (mustSaveObject) {
-	    // si on est dans un set, on sauvegarde l'objet 
+	    // si on est dans un set, on sauvegarde l'objet
 	    MethodeCouranteManager.instance.addBackupToCurrentMethod(new BackupManager(getObject()));
 	}
-	
+
 	Object result;
 	try {
 	    result = super.trapMethodcall(identifier, args);

@@ -15,16 +15,17 @@ import fr.upmc.ta.aladyn.backup.CtMethodExecuted;
 import fr.upmc.ta.aladyn.backup.MethodeCouranteManager;
 
 /**
- * Ce translator se charge d'injecter du code au chargement des classes afin de gérer les sauvegardes
- * et restaurations des objets transactionables lors des appels de méthode transacionnables.
+ * Ce translator se charge d'injecter du code au chargement des classes afin de gérer les sauvegardes et restaurations des objets
+ * transactionables lors des appels de méthode transacionnables.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class InjectionTranslator implements Translator {
 
     @Override
-    public void start(ClassPool pool) throws NotFoundException, CannotCompileException {}
+    public void start(ClassPool pool) throws NotFoundException, CannotCompileException {
+    }
 
     @Override
     public void onLoad(ClassPool pool, String classname) throws NotFoundException, CannotCompileException {
@@ -59,13 +60,14 @@ public class InjectionTranslator implements Translator {
     /**
      * Injecte du code en début de chaque Setter de la classe. Le code injecté va faire la sauvegarde des objets instance de cette
      * classe afin de les enregistrer dans le singleton {@link MethodeCouranteManager}.
-     * @param pool 
-     * 		le ClassPool
+     * 
+     * @param pool
+     *            le ClassPool
      * @param ctClass
      *            la classe dont les setters doivent être injectés.
      * @throws InjectionException
      *             si le code injecté ne compile pas.
-     * @throws CannotCompileException 
+     * @throws CannotCompileException
      */
     private void injectSetters(final ClassPool pool, final CtClass ctClass) throws InjectionException, CannotCompileException {
 
@@ -77,8 +79,9 @@ public class InjectionTranslator implements Translator {
 		    CtMethod methodCalled = mc.getMethod();
 		    if (methodCalled.getName().startsWith("set")) {
 
-			methodCalled.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
-				+ "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
+			methodCalled
+				.insertBefore("fr.upmc.ta.aladyn.backup.BackupManager bm = new fr.upmc.ta.aladyn.backup.BackupManager(this);"
+					+ "fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.addBackupToCurrentMethod(bm);");
 		    }
 		} catch (NotFoundException e) {
 		    e.printStackTrace();
@@ -131,8 +134,8 @@ public class InjectionTranslator implements Translator {
 	method.addCatch(restoreMethod + "throw $e;", throwableCtClass);
 
 	/*
-	 * 3. On injecte avant et après la méthode le push et le pop d'une {@link CtMethodExecuted} dans le singleton
-	 * {@link MethodeCouranteManager}.
+	 * 3. On injecte avant et après la méthode le push et le pop d'une {@link CtMethodExecuted} dans le singleton {@link
+	 * MethodeCouranteManager}.
 	 */
 	method.insertBefore("fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.newTransactionnableMethod();");
 	method.insertAfter("fr.upmc.ta.aladyn.backup.MethodeCouranteManager.instance.endOfTransactionnableMethod();");

@@ -10,9 +10,11 @@ import fr.upmc.ta.aladyn.backup.MyPointTest;
 
 /**
  * Lance tous les tests unitaires.
+ * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 @RunWith(Suite.class)
 @SuiteClasses({ BackupManagerTest.class, MethodeCouranteManagerTest.class, MyPointTest.class })
-public class AllUnitsTests {}
+public class AllUnitsTests {
+}

@@ -4,7 +4,7 @@ package fr.upmc.ta.aladyn.tests.objects;
  * Une classe de test permettant de vérifier la bonne sauvegarde des champs hérités.
  * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class MyMother extends MySuperMother {
 

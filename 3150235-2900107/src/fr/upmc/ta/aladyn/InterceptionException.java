@@ -2,8 +2,9 @@ package fr.upmc.ta.aladyn;
 
 /**
  * Exception levée lorsque l'interception d'un appel de méthode échoue.
+ * 
  * @author Michel Knoertzer & Vincent Marchal
- *
+ * 
  */
 public class InterceptionException extends Exception {
 
