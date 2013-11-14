@@ -46,7 +46,7 @@ public class SiteAchat {
     /**
      * Getter
      * 
-     * @return le panier sous la forme d'une list de String
+     * @return le stock du site sous la forme d'une liste de String
      */
     public List<String> getStock() {
 	return stock;
@@ -55,8 +55,7 @@ public class SiteAchat {
     /**
      * Methode public permettant d'ajouter un achat à votre panier
      * 
-     * @param article
-     *            à ajouter au panier
+     * @param article à ajouter au panier
      */
     public void setAchat(String achat) {
 	List<String> tmp = new ArrayList<String>();
@@ -70,8 +69,7 @@ public class SiteAchat {
     /**
      * Methode public permettant d'ajouter un article au stock du site web
      * 
-     * @param article
-     *            à ajouter stock
+     * @param article à ajouter stock
      */
     public void setStock(String article) {
 	List<String> tmp = new ArrayList<String>();
@@ -85,9 +83,9 @@ public class SiteAchat {
 
     /**
      * Methode privé pemettant de retirer un achat du panier
+     * Fait de maniere à changer de référence.
      * 
-     * @param achat
-     *            à retirer du panier
+     * @param achat à retirer du panier
      */
     public void setRetirerAchatPanier(String achat) {
 	List<String> tmp = new ArrayList<String>();
@@ -100,9 +98,9 @@ public class SiteAchat {
 
     /**
      * Methode privé pemettant de retirer un article des stocks
+     * Fait de maniere à changer de référence.
      * 
-     * @param article
-     *            à retirer des stocks
+     * @param article à retirer des stocks
      */
     public void setRetirerAchatStock(String article) {
 	List<String> tmp = new ArrayList<String>();
@@ -117,8 +115,7 @@ public class SiteAchat {
      * Achat qui rate et qui fausse les données.
      * 
      * @param achat
-     * @throws siteAchatException
-     *             Une exception est levée pendant l'achat sur le site
+     * @throws siteAchatException Une exception est levée pendant l'achat sur le site.
      */
     public void addAchatFail(String achat) throws SiteAchatException {
 	setAchat("un gros chien noir");
@@ -127,7 +124,7 @@ public class SiteAchat {
     }
 
     /**
-     * Achat qui rate mais garde les données cohérentes.
+     * Achat qui rate mais corrigé, Transactionnabilité permet de restaurer les données.
      * 
      * @param achat
      *            à ajouter au panier
@@ -161,9 +158,6 @@ public class SiteAchat {
 	viderPanier();
     }
 
-    // Partie permettant d'effectuer un test Transactionnale :
-    // m1 call m2, m2 fail => restore de m1
-
     /**
      * Méthode qui vide le panier avec une erreur
      */
@@ -175,7 +169,7 @@ public class SiteAchat {
     }
 
     /**
-     * Permet d'effctuer une commande et donc retirer les articles des stocks du site internet Cette méthode lance un exception
+     * Permet d'effectuer une commande et donc retirer les articles des stocks du site internet. Cette méthode lance un exception
      * dans l'appel de la suppression du panier
      */
     @Transactionnable

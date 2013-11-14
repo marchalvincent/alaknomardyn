@@ -23,7 +23,7 @@ public class InterceptionTestSiteWeb {
 	amazon.setStock("chat violet");
 	amazon.setStock("un gros chien noir");
 
-	// Préremplissage du panier
+	// Pré-remplissage du panier
 	amazon.setAchat("velo jaune");
 	amazon.setAchat("une voiture noir");
 
