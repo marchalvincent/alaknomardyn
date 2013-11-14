@@ -25,6 +25,28 @@ public class InterceptionScenariiTests {
 	    assertTrue(false);
 	}
     }
+    
+    @Test
+    public void inteceptionTestCompteBancaire2() {
+	String[] args = { "fr.upmc.ta.aladyn.interception.InterceptionTestCompteBancaire2" };
+	try {
+	    InterceptionMain.main(args);
+	} catch (Throwable e) {
+	    // si une exception est sortie du main, ce n'est pas normal
+	    assertTrue(false);
+	}
+    }
+    
+    @Test
+    public void inteceptionTestCompteBancaire3() {
+	String[] args = { "fr.upmc.ta.aladyn.interception.InterceptionTestCompteBancaire3" };
+	try {
+	    InterceptionMain.main(args);
+	} catch (Throwable e) {
+	    // si une exception est sortie du main, ce n'est pas normal
+	    assertTrue(false);
+	}
+    }
 
     @Test
     public void inteceptionTestSiteWeb() {
@@ -47,5 +69,4 @@ public class InterceptionScenariiTests {
 	    assertTrue(false);
 	}
     }
-
 }
