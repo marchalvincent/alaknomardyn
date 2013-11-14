@@ -56,7 +56,7 @@ public class TransMetaObj extends Metaobject {
 	boolean mustEmpileDepileAndCatchException = methodeIsTransactionnable;
 
 	if (mustEmpileDepileAndCatchException) {
-	    // si on est dans une méthode transactionnable, on empile la méthode dans la stack
+	    // Si on est dans une méthode transactionnable, on empile la méthode dans la stack
 	    MethodeCouranteManager.instance.newTransactionnableMethod();
 	}
 

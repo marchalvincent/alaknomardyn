@@ -8,6 +8,12 @@ import javassist.Translator;
 import javassist.tools.reflect.Loader;
 import fr.upmc.ta.aladyn.Transactionnable;
 
+/**
+ * Ce translator permet d'ajouter le mécanisme d'interception dans les classes passées en paramètres.
+ * 
+ * @author Michel Knoertzer & Vincent Marchal
+ * 
+ */
 public class InterceptionTranslator implements Translator {
 
     private Loader loader;

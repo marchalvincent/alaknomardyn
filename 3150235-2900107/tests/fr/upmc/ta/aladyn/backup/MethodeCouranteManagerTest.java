@@ -109,9 +109,4 @@ public class MethodeCouranteManagerTest {
 
 	MethodeCouranteManager.instance.endOfTransactionnableMethod();
     }
-
-    @Test
-    public void testMultithreads() throws Exception {
-	// TODO
-    }
 }
