@@ -21,8 +21,8 @@ public class InterceptionTestCompteBancaire2 {
 	    throw new CompteBancaireException();
 
 	/*
-	 * cette méthode fait 2 fois le débit et 1 fois le crédit. Comme une exception interne n'est pas gérée par 
-	 * l'interception, le débit est bien effectué 2 fois et donc les données ne sont pas incohérentes
+	 * cette méthode fait 2 fois le débit et 1 fois le crédit. Comme une exception interne n'est pas gérée par l'interception,
+	 * le débit est bien effectué 2 fois et donc les données ne sont pas incohérentes
 	 */
 	michel.transfertTransactionnableWithInternalException(vincent, 50);
 	if (vincent.getSolde() != 50 || michel.getSolde() != 0)
