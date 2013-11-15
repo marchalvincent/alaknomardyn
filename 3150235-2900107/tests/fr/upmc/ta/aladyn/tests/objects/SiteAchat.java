@@ -55,7 +55,8 @@ public class SiteAchat {
     /**
      * Methode public permettant d'ajouter un achat à votre panier
      * 
-     * @param article à ajouter au panier
+     * @param article
+     *            à ajouter au panier
      */
     public void setAchat(String achat) {
 	List<String> tmp = new ArrayList<String>();
@@ -69,7 +70,8 @@ public class SiteAchat {
     /**
      * Methode public permettant d'ajouter un article au stock du site web
      * 
-     * @param article à ajouter stock
+     * @param article
+     *            à ajouter stock
      */
     public void setStock(String article) {
 	List<String> tmp = new ArrayList<String>();
@@ -82,10 +84,10 @@ public class SiteAchat {
     }
 
     /**
-     * Methode privé pemettant de retirer un achat du panier
-     * Fait de maniere à changer de référence.
+     * Methode privé pemettant de retirer un achat du panier Fait de maniere à changer de référence.
      * 
-     * @param achat à retirer du panier
+     * @param achat
+     *            à retirer du panier
      */
     public void setRetirerAchatPanier(String achat) {
 	List<String> tmp = new ArrayList<String>();
@@ -97,10 +99,10 @@ public class SiteAchat {
     }
 
     /**
-     * Methode privé pemettant de retirer un article des stocks
-     * Fait de maniere à changer de référence.
+     * Methode privé pemettant de retirer un article des stocks Fait de maniere à changer de référence.
      * 
-     * @param article à retirer des stocks
+     * @param article
+     *            à retirer des stocks
      */
     public void setRetirerAchatStock(String article) {
 	List<String> tmp = new ArrayList<String>();
@@ -115,7 +117,8 @@ public class SiteAchat {
      * Achat qui rate et qui fausse les données.
      * 
      * @param achat
-     * @throws siteAchatException Une exception est levée pendant l'achat sur le site.
+     * @throws siteAchatException
+     *             Une exception est levée pendant l'achat sur le site.
      */
     public void addAchatFail(String achat) throws SiteAchatException {
 	setAchat("un gros chien noir");

@@ -25,7 +25,7 @@ public class InterceptionScenariiTests {
 	    assertTrue(false);
 	}
     }
-    
+
     @Test
     public void inteceptionTestCompteBancaire2() {
 	String[] args = { "fr.upmc.ta.aladyn.interception.InterceptionTestCompteBancaire2" };
@@ -36,7 +36,7 @@ public class InterceptionScenariiTests {
 	    assertTrue(false);
 	}
     }
-    
+
     @Test
     public void inteceptionTestCompteBancaire3() {
 	String[] args = { "fr.upmc.ta.aladyn.interception.InterceptionTestCompteBancaire3" };
