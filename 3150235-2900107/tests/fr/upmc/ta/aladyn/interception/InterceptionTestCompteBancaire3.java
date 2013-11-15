@@ -24,7 +24,7 @@ public class InterceptionTestCompteBancaire3 {
 	michel.transfertTransactionnableWithSurety(vincent, 50);
 	if (vincent.getSolde() != 0 || michel.getSolde() != 100)
 	    throw new CompteBancaireException();
-	
+
 	try {
 	    // avec cette méthode qui échoue, l'état initial doit être rétabli
 	    michel.imbricatedTransfertTransactionnable(vincent, 50);
